@@ -18,6 +18,7 @@ for (let i = 0, j = files.length; i < j; i++) {
   const file = d3.csvParse(
     fs.readFileSync(path.join(SOURCE_DIR, files[i]), 'utf-8'),
   );
+
   file.forEach(row => {
     const state = states.find(s => s.abbr === row.STATE).id;
     const district = `d${row.CONG_DISTRICT}`;
@@ -26,8 +27,9 @@ for (let i = 0, j = files.length; i < j; i++) {
     if (!outputData[state].data[year][district]) {
       outputData[state].data[year][district] = {};
     }
+
     outputData[state].data[year][district] = {
-      netChange: +row.NET_TAX_CHANGE_PER_FILER,
+      netChange: Math.round(+row.NET_TAX_CHANGE_PER_FILER * 100) / 100,
     };
   });
 }
