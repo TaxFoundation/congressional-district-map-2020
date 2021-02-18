@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import Navigation from './components/Navigation';
+// import Navigation from './components/Navigation';
 import USMap from './components/USMap';
-import StateMap from './components/StateMap';
+// import StateMap from './components/StateMap';
 import us from './data/us.json';
 import districts from './data/us-congress-113.json';
-import data from './data/data.json';
+import data from './data/outputs/data.json';
 import Legend from './components/Legend';
 
 const AppWrapper = styled.div`
@@ -74,44 +74,20 @@ class App extends Component {
   render() {
     return (
       <AppWrapper className="App">
-        <Navigation
-          values={this.state}
-          updateBucket={this.updateBucket}
-          updateChildren={this.updateChildren}
-          updateActiveState={this.updateActiveState}
-        />
         <Legend domain={this.state.domain} steps={19} />
-        {this.state.stateData ? (
-          <StateMap
-            activeState={this.state.activeState}
-            stateData={this.state.stateData}
-            data={data[this.state.activeState]}
-            domain={this.state.domain}
-            activeBucket={this.state.activeBucket}
-            activeChildren={this.state.activeChildren}
-            updateActiveState={this.updateActiveState}
-            scale={{
-              scale: this.scale,
-              xScale: this.xScale,
-              yScale: this.yScale,
-            }}
-          />
-        ) : (
-          <USMap
-            us={us}
-            districts={districts}
-            data={data}
-            domain={this.state.domain}
-            activeBucket={this.state.activeBucket}
-            activeChildren={this.state.activeChildren}
-            updateActiveState={this.updateActiveState}
-            scale={{
-              scale: this.scale,
-              xScale: this.xScale,
-              yScale: this.yScale,
-            }}
-          />
-        )}
+        <USMap
+          us={us}
+          districts={districts}
+          data={data}
+          year={'y2021'}
+          domain={this.state.domain}
+          activeBucket={this.state.activeBucket}
+          activeChildren={this.state.activeChildren}
+          updateActiveState={this.updateActiveState}
+          scale={this.scale}
+          xScale={this.xScale}
+          yScale={this.yScale}
+        />
       </AppWrapper>
     );
   }

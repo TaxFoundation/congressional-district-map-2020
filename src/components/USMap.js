@@ -1,11 +1,11 @@
-import React, { Component, Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { geoAlbersUsa, geoPath } from 'd3-geo';
+import { geoAlbers, geoPath } from 'd3-geo';
 import { feature } from 'topojson-client';
+
 import HoverContainer from './HoverContainer';
 import { colorize, formatter } from '../helpers';
-import STATES from '../data/states';
 
 const State = styled.path`
   cursor: pointer;
@@ -27,10 +27,6 @@ const hoverText = (name, info, jobs) => `
     <td style="border: none">Average Tax Cut:</td>
     <td style="border: none; text-align: right;">${formatter(info, '$')}</td>
   </tr>
-  <tr style="background:transparent">
-    <td style="border: none">Est. Jobs Added in 2018:</td>
-    <td style="border: none; text-align: right;">${formatter(jobs, ',')}</td>
-  </tr>
   </tbody></table>`;
 
 const District = styled.path`
@@ -39,83 +35,102 @@ const District = styled.path`
   stroke-linejoin: bevel;
 `;
 
-class USMap extends Component {
-  render() {
-    const path = geoPath().projection(
-      geoAlbersUsa()
-        .scale(this.props.scale.scale)
-        .translate([this.props.scale.xScale / 2, this.props.scale.yScale / 2 - 25]),
-    );
+const USMap = ({
+  us,
+  districts,
+  year,
+  updateActiveState,
+  scale,
+  domain,
+  xScale,
+  yScale,
+  data,
+}) => {
+  const path = geoPath().projection(
+    geoAlbers()
+      .scale(scale)
+      .translate([xScale / 2, yScale / 2 - 25]),
+  );
 
-    const districtsFeatures = feature(this.props.districts, this.props.districts.objects.districts)
-      .features;
+  const districtsFeatures = feature(districts, districts.objects.districts)
+    .features;
 
-    const districtShapes = districtsFeatures.map(d => {
-      const stateId = Math.floor(+d.id / 100);
-      const districtId = d.id % 100;
-      let districtData;
-      if (this.props.data[stateId] && this.props.data[stateId][districtId]) {
-        districtData = this.props.data[stateId][districtId][this.props.activeBucket];
-        return (
-          <District
-            d={path(d)}
-            fill={
-              districtData && districtData.i
-                ? colorize(districtData.t / districtData.i, this.props.domain)
-                : '#888'
-            }
-            id={`district-${d.id}`}
-            key={`district-${d.id}`}
-          />
-        );
-      } else {
-        return null;
-      }
-    });
-
-    const states = feature(this.props.us, this.props.us.objects.states).features.map(d => {
-      const stateInfo = STATES.find(s => s.id === +d.id);
-
+  const districtShapes = districtsFeatures.map(d => {
+    const stateId = Math.floor(+d.id / 100);
+    const districtId = `d${d.id % 100}`;
+    let districtData;
+    if (data[stateId] && data[stateId].data[year][districtId]) {
+      console.log(stateId, districtId, data[stateId].data[year]);
+      districtData = data[stateId].data[year][districtId];
       return (
-        <State
+        <District
           d={path(d)}
-          data-tip={
-            stateInfo
-              ? hoverText(stateInfo.name, stateInfo[this.props.activeBucket].t, stateInfo.jobs)
-              : null
+          fill={
+            districtData && districtData.netChange
+              ? colorize(districtData.netChange, domain)
+              : '#888'
           }
-          data-for="usmap"
-          data-html={true}
-          key={`state-${d.id}`}
-          onClick={e => {
-            this.props.updateActiveState(d.id);
-          }}
+          id={`district-${d.id}`}
+          key={`district-${d.id}`}
         />
       );
-    });
+    } else {
+      return null;
+    }
+  });
+
+  const states = feature(us, us.objects.states).features.map(d => {
+    const stateInfo = data[+d.id];
+    let districtValues,
+      avgNetChange = null;
+    if (stateInfo) {
+      const districtValues = Object.values(stateInfo.data[year]);
+      const avgNetChange =
+        districtValues.reduce((acc, curr) => acc + curr, 0) /
+        districtValues.length;
+    }
 
     return (
-      <Fragment>
-        <svg width="100%" viewBox={`0 0 ${this.props.scale.xScale} ${this.props.scale.yScale}`}>
-          <defs>
-            <path id="land" d={path(feature(this.props.us, this.props.us.objects.land))} />
-          </defs>
-          <clipPath id="clip-land">
-            <use xlinkHref="#land" />
-          </clipPath>
-          <g clipPath="url(#clip-land)">{districtShapes}</g>
-          <g>{states}</g>
-        </svg>
-        <HoverContainer id="usmap" aria-haspopup="true" />
-      </Fragment>
+      <State
+        d={path(d)}
+        data-tip={stateInfo ? hoverText(stateInfo.name, avgNetChange) : null}
+        data-for="usmap"
+        data-html={true}
+        key={`state-${d.id}`}
+        onClick={e => {
+          updateActiveState(d.id);
+        }}
+      />
     );
-  }
-}
+  });
+
+  return (
+    <>
+      <svg width="100%" viewBox={`0 0 ${xScale} ${yScale}`}>
+        <defs>
+          <path id="land" d={path(feature(us, us.objects.land))} />
+        </defs>
+        <clipPath id="clip-land">
+          <use xlinkHref="#land" />
+        </clipPath>
+        <g clipPath="url(#clip-land)">{districtShapes}</g>
+        <g>{states}</g>
+      </svg>
+      <HoverContainer id="usmap" aria-haspopup="true" />
+    </>
+  );
+};
 
 USMap.propTypes = {
   us: PropTypes.object,
   districts: PropTypes.object,
   updateActiveState: PropTypes.func,
+  year: PropTypes.number,
+  scale: PropTypes.number,
+  domain: PropTypes.arrayOf(PropTypes.number),
+  xScale: PropTypes.number,
+  yScale: PropTypes.number,
+  data: PropTypes.any,
 };
 
 export default USMap;
