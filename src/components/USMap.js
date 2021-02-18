@@ -60,7 +60,6 @@ const USMap = ({
     const districtId = `d${d.id % 100}`;
     let districtData;
     if (data[stateId] && data[stateId].data[year][districtId]) {
-      console.log(stateId, districtId, data[stateId].data[year]);
       districtData = data[stateId].data[year][districtId];
       return (
         <District
@@ -84,8 +83,10 @@ const USMap = ({
     let districtValues,
       avgNetChange = null;
     if (stateInfo) {
-      const districtValues = Object.values(stateInfo.data[year]);
-      const avgNetChange =
+      districtValues = Object.values(stateInfo.data[year]).map(
+        d => d.netChange,
+      );
+      avgNetChange =
         districtValues.reduce((acc, curr) => acc + curr, 0) /
         districtValues.length;
     }

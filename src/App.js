@@ -27,7 +27,7 @@ class App extends Component {
       activeState: 0,
       stateData: null,
       activeBucket: 3,
-      domain: [0, 0.06],
+      domain: [-5000, 5000],
     };
 
     this.scale = 780;
