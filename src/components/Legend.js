@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import styled from 'styled-components';
-import { colorize } from '../helpers';
+import { colorize, formatter } from '../helpers';
 
 const LegendContainer = styled.div`
   display: grid;
@@ -28,15 +28,21 @@ const Legend = props => (
     <LegendText textAlign="right">
       {props.domain[0] < 0 ? (
         <Fragment>
-          `${100 * Math.abs(props.domain[0])}% or More`<br />Increase
+          {formatter(Math.abs(props.domain[0]), '$')} or More
+          <br />
+          Cut
         </Fragment>
       ) : props.domain[0] === 0 ? (
         <Fragment>
-          No<br />Change
+          No
+          <br />
+          Change
         </Fragment>
       ) : (
         <Fragment>
-          `${100 * Math.abs(props.domain[0])}%`<br />Cut
+          {formatter(props.domain[0], '$')}
+          <br />
+          Increase
         </Fragment>
       )}
     </LegendText>
@@ -44,8 +50,9 @@ const Legend = props => (
       <LegendStop key={`legend-${k}`} steps={props.steps} step={k} />
     ))}
     <LegendText textAlign="left">
-      {`${100 * Math.abs(props.domain[1])}% or More`}
-      <br />Cut
+      {`${formatter(props.domain[1], '$')} or More`}
+      <br />
+      Increase
     </LegendText>
   </LegendContainer>
 );

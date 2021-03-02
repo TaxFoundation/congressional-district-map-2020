@@ -20,10 +20,18 @@ export const colorize = (value, domain) => {
 export const formatter = (number, type) => {
   if (type === '%') {
     return format('.1%')(number);
-  } else if (type === '$' && number % 1 > 0) {
-    return format('$,.2f')(number);
+  } else if (type === '$' && number % 1 === 0) {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      maximumFractionDigits: 0,
+    }).format(number);
   } else if (type === '$') {
-    return format('$,')(number);
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      maximumFractionDigits: 2,
+    }).format(number);
   } else if (type === ',') {
     return format(',.0f')(number);
   }
