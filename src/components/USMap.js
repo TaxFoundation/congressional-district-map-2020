@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { geoAlbers, geoPath } from 'd3-geo';
 import { feature } from 'topojson-client';
 
+import { MapContext } from '../context';
 import HoverContainer from './HoverContainer';
 import { colorize, formatter } from '../helpers';
 
@@ -24,7 +25,7 @@ const hoverText = (name, info, jobs) => `
   <p style="text-align:center; border-bottom: 1px solid #ddd; padding-bottom: 9px; margin-bottom: 9px;"><strong>${name}</strong></p>
   <table><tbody>
   <tr style="background:transparent">
-    <td style="border: none">Average Tax Cut:</td>
+    <td style="border: none">Average Tax Change:</td>
     <td style="border: none; text-align: right;">${formatter(info, '$')}</td>
   </tr>
   </tbody></table>`;
@@ -46,6 +47,7 @@ const USMap = ({
   yScale,
   data,
 }) => {
+  const { data: stateData } = useContext(MapContext);
   const path = geoPath().projection(
     geoAlbers()
       .scale(scale)
@@ -59,8 +61,8 @@ const USMap = ({
     const stateId = Math.floor(+d.id / 100);
     const districtId = `d${d.id % 100}`;
     let districtData;
-    if (data[stateId] && data[stateId].data[year][districtId]) {
-      districtData = data[stateId].data[year][districtId];
+    if (data[stateId] && data[stateId].data[stateData.year][districtId]) {
+      districtData = data[stateId].data[stateData.year][districtId];
       return (
         <District
           d={path(d)}
@@ -83,7 +85,7 @@ const USMap = ({
     let districtValues,
       avgNetChange = null;
     if (stateInfo) {
-      districtValues = Object.values(stateInfo.data[year]).map(
+      districtValues = Object.values(stateInfo.data[stateData.year]).map(
         d => d.netChange,
       );
       avgNetChange =
@@ -98,7 +100,7 @@ const USMap = ({
         data-for="usmap"
         data-html={true}
         key={`state-${d.id}`}
-        onClick={e => {
+        onClick={() => {
           updateActiveState(d.id);
         }}
       />

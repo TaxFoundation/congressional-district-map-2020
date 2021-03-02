@@ -1,9 +1,7 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
-import HoverContainer from './HoverContainer';
-import Select from './Select';
-import BUCKETS from '../data/buckets.js';
-import STATES from '../data/states';
+
+import { MapContext } from '../context';
 
 const Container = styled.div`
   background-color: #f5f5f5;
@@ -47,71 +45,38 @@ const Tooltip = styled.span`
   top: -0.25rem;
 `;
 
-const BucketSeclection = props => {
+const RangeSlider = ({ years }) => {
+  const { data, updateData } = useContext(MapContext);
+
   return (
     <div>
-      <NavSectionHeading>
-        Choose AGI Range{' '}
-        <Tooltip data-for="agi-label" data-tip>
-          ?
-        </Tooltip>
-      </NavSectionHeading>
-      <div>
-        <Select
-          name="income"
-          id="income"
-          value={props.value}
-          onChange={e => props.update(e.target.value)}
-        >
-          {BUCKETS.map(b => (
-            <option key={`bucket-${b.id}`} value={b.id}>
-              {b.value}
-            </option>
-          ))}
-        </Select>
-      </div>
-      <HoverContainer place="bottom" id="agi-label">
-        Adjusted Gross Income: your gross income minus certain deductions, such
-        as education expenses and health savings account contributions.
-      </HoverContainer>
+      <NavSectionHeading>Select Year</NavSectionHeading>
+      <input
+        type="range"
+        min={Math.min(...years)}
+        max={Math.max(...years)}
+        step="1"
+        list="years"
+        onChange={e => {
+          updateData({ id: 'UPDATE_YEAR', value: `y${e.target.value}` });
+        }}
+      />
+      <datalist id="years">
+        {years.map(year => (
+          <option key={`range-year-${year}`} value={year} label={year}></option>
+        ))}
+      </datalist>
     </div>
   );
 };
 
-const USStateSelection = props => {
-  return (
-    <div>
-      <NavSectionHeading>Choose a State</NavSectionHeading>
-      <div>
-        <Select
-          name="theState"
-          id="theState"
-          value={props.value}
-          onChange={e => props.update(e.target.value)}
-        >
-          <option value="0">No State Selected</option>
-          {STATES.map(s => (
-            <option key={`theState-${s.id}`} value={s.id}>
-              {s.name}
-            </option>
-          ))}
-        </Select>
-      </div>
-    </div>
-  );
-};
-
-const Navigation = props => {
+const Navigation = ({ years, activeYear, setActiveYear }) => {
   return (
     <Container>
-      <BucketSeclection
-        buckets={props.buckets}
-        value={props.values.activeBucket}
-        update={props.updateBucket}
-      />
-      <USStateSelection
-        value={props.values.activeState}
-        update={props.updateActiveState}
+      <RangeSlider
+        years={years}
+        activeYear={activeYear}
+        setActiveYear={setActiveYear}
       />
     </Container>
   );
