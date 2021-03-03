@@ -13,9 +13,6 @@ const NavSectionHeading = styled.label`
 `;
 
 const StyledSlider = styled.div`
-  --thumb-height: var(----thumb-height);
-  --thumb-width: 24px;
-  --thumb-radius: 4px;
   align-items: center;
   display: grid;
   grid-gap: 1rem;
@@ -33,7 +30,7 @@ const YearSelect = ({ years }) => {
 
   return (
     <div>
-      <NavSectionHeading for="year-select">
+      <NavSectionHeading htmlFor="year-select">
         Select Year: {data.year.match(/\d+/)[0]}
       </NavSectionHeading>
       <StyledSlider>

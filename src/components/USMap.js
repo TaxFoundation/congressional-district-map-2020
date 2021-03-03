@@ -40,7 +40,6 @@ const District = styled.path`
 const USMap = ({
   us,
   districts,
-  year,
   updateActiveState,
   scale,
   domain,
