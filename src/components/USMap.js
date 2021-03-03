@@ -61,7 +61,7 @@ const USMap = ({
     const stateId = Math.floor(+d.id / 100);
     const districtId = `d${d.id % 100}`;
     let districtData;
-    if (data[stateId] && data[stateId].data[stateData.year][districtId]) {
+    if (data[stateId]?.data[stateData.year][districtId]) {
       districtData = data[stateId].data[stateData.year][districtId];
       return (
         <District
