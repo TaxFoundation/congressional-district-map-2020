@@ -34,6 +34,7 @@ const District = styled.path`
   stroke: #fff;
   stroke-width: 0.5;
   stroke-linejoin: bevel;
+  transition: fill 0.2s ease-in-out;
 `;
 
 const USMap = ({

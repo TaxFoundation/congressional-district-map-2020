@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
 
-import { MapContext } from '../context';
+import YearSelect from './YearSelect';
 
 const Container = styled.div`
   background-color: #f5f5f5;
@@ -21,15 +21,6 @@ const Container = styled.div`
   }
 `;
 
-const NavSectionHeading = styled.h2`
-  display: block;
-  font-size: 1.4rem;
-  line-height: 1.4;
-  margin: 0 0 1rem;
-  text-align: center;
-  width: 100%;
-`;
-
 const Tooltip = styled.span`
   background-color: #e6f4ff;
   border: 1px solid #0094ff;
@@ -45,39 +36,10 @@ const Tooltip = styled.span`
   top: -0.25rem;
 `;
 
-const RangeSlider = ({ years }) => {
-  const { data, updateData } = useContext(MapContext);
-
-  return (
-    <div>
-      <NavSectionHeading>Select Year</NavSectionHeading>
-      <input
-        type="range"
-        min={Math.min(...years)}
-        max={Math.max(...years)}
-        step="1"
-        list="years"
-        onChange={e => {
-          updateData({ id: 'UPDATE_YEAR', value: `y${e.target.value}` });
-        }}
-      />
-      <datalist id="years">
-        {years.map(year => (
-          <option key={`range-year-${year}`} value={year} label={year}></option>
-        ))}
-      </datalist>
-    </div>
-  );
-};
-
 const Navigation = ({ years, activeYear, setActiveYear }) => {
   return (
     <Container>
-      <RangeSlider
-        years={years}
-        activeYear={activeYear}
-        setActiveYear={setActiveYear}
-      />
+      <YearSelect years={years} />
     </Container>
   );
 };
