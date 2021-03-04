@@ -36,7 +36,7 @@ const Tooltip = styled.span`
   top: -0.25rem;
 `;
 
-const Navigation = ({ years, activeYear, setActiveYear }) => {
+const Navigation = ({ years }) => {
   return (
     <Container>
       <YearSelect years={years} />

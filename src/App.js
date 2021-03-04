@@ -1,12 +1,9 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 import { StateProvider } from './context';
 import USMap from './components/USMap';
 // import StateMap from './components/StateMap';
-import us from './data/us.json';
-import districts from './data/us-congress-113.json';
-import data from './data/outputs/data.json';
 
 import Navigation from './components/Navigation';
 import Legend from './components/Legend';
@@ -23,36 +20,63 @@ const AppWrapper = styled.div`
 `;
 
 const App = () => {
+  const [us, setUS] = useState(JSON.parse(localStorage.getItem('us')) || null);
+  const [districts, setDistricts] = useState(
+    JSON.parse(localStorage.getItem('districts')) || null,
+  );
+  const [data, setData] = useState(
+    JSON.parse(localStorage.getItem('data')) || null,
+  );
+
   const domain = [-1000, 1000];
   const scale = 780;
   const xScale = 600;
   const yScale = 400;
-  const years = Object.keys(data['1'].data).map(
-    yearString => yearString.match(/\d+/)[0],
-  );
+
+  const getData = async (path, setTheData) => {
+    const cachedData = localStorage.getItem(path);
+
+    const tfUrl = 'https://biden-plan-map-2021.netlify.app/';
+    const response = await fetch(
+      `${
+        process.env.REACT_APP_ENV === 'taxfoundation' ? tfUrl : ''
+      }data/${path}.json`,
+    );
+    const json = await response.json();
+    localStorage.setItem(path, JSON.stringify(json));
+    setTheData(json);
+  };
+
+  useEffect(() => {
+    if (!us) getData('us', setUS);
+    if (!districts) getData('districts', setDistricts);
+    if (!data) getData('data', setData);
+  }, []);
 
   return (
-    <StateProvider>
-      <AppWrapper className="App">
-        <Navigation
-          years={years}
-          activeYear={2021}
-          setActiveYear={e => {
-            console.log(e);
-          }}
-        />
-        <Legend domain={domain} steps={19} />
-        <USMap
-          us={us}
-          districts={districts}
-          data={data}
-          domain={domain}
-          scale={scale}
-          xScale={xScale}
-          yScale={yScale}
-        />
-      </AppWrapper>
-    </StateProvider>
+    us &&
+    districts &&
+    data && (
+      <StateProvider>
+        <AppWrapper className="App">
+          <Navigation
+            years={Object.keys(data['1'].data).map(
+              yearString => yearString.match(/\d+/)[0],
+            )}
+          />
+          <Legend domain={domain} steps={19} />
+          <USMap
+            us={us}
+            districts={districts}
+            data={data}
+            domain={domain}
+            scale={scale}
+            xScale={xScale}
+            yScale={yScale}
+          />
+        </AppWrapper>
+      </StateProvider>
+    )
   );
 };
 
