@@ -1,6 +1,7 @@
 import { createContext, useReducer } from 'react';
 
 const initialState = {
+  activeState: null,
   year: 'y2021',
   PAYROLL: true,
   MARGINAL_RATE: true,
@@ -44,9 +45,9 @@ const mapReducer = (state, action) => {
 };
 
 export const StateProvider = ({ children }) => {
-  const [data, updateData] = useReducer(mapReducer, initialState);
+  const [context, updateContext] = useReducer(mapReducer, initialState);
   return (
-    <MapContext.Provider value={{ data, updateData }}>
+    <MapContext.Provider value={{ context, updateContext }}>
       {children}
     </MapContext.Provider>
   );

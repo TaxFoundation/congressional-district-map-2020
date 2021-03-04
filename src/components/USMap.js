@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { geoAlbers, geoPath } from 'd3-geo';
@@ -38,17 +38,17 @@ const District = styled.path`
   transition: fill 0.2s ease-in-out;
 `;
 
-const USMap = ({ updateActiveState, scale, domain, xScale, yScale, data }) => {
-  const { data: stateData } = useContext(MapContext);
-  const [us, setUS] = useState(JSON.parse(localStorage.getItem('us')) || null);
-  const [districts, setDistricts] = useState(
-    JSON.parse(localStorage.getItem('districts')) || null,
-  );
-
-  useEffect(() => {
-    if (!us) getData('us', setUS);
-    if (!districts) getData('districts', setDistricts);
-  }, []);
+const USMap = ({
+  us,
+  districts,
+  updateActiveState,
+  scale,
+  domain,
+  xScale,
+  yScale,
+  data,
+}) => {
+  const { context } = useContext(MapContext);
 
   const path = geoPath().projection(
     geoAlbers()
@@ -63,8 +63,8 @@ const USMap = ({ updateActiveState, scale, domain, xScale, yScale, data }) => {
     const stateId = Math.floor(+d.id / 100);
     const districtId = `d${d.id % 100}`;
     let districtData;
-    if (data[stateId]?.data[stateData.year][districtId]) {
-      districtData = data[stateId].data[stateData.year][districtId];
+    if (data[stateId]?.data[context?.year][districtId]) {
+      districtData = data[stateId].data[context.year][districtId];
       return (
         <District
           d={path(d)}
@@ -87,7 +87,7 @@ const USMap = ({ updateActiveState, scale, domain, xScale, yScale, data }) => {
     let districtValues,
       avgNetChange = null;
     if (stateInfo) {
-      districtValues = Object.values(stateInfo.data[stateData.year]).map(
+      districtValues = Object.values(stateInfo.data[context.year]).map(
         d => d.netChange,
       );
       avgNetChange =

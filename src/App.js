@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 
-import { StateProvider } from './context';
+import { MapContext, StateProvider } from './context';
 import { getData } from './helpers';
 import USMap from './components/USMap';
 // import StateMap from './components/StateMap';
@@ -21,9 +21,14 @@ const AppWrapper = styled.div`
 `;
 
 const App = () => {
+  const [us, setUS] = useState(JSON.parse(localStorage.getItem('us')) || null);
+  const [districts, setDistricts] = useState(
+    JSON.parse(localStorage.getItem('districts')) || null,
+  );
   const [data, setData] = useState(
     JSON.parse(localStorage.getItem('data')) || null,
   );
+  const { context } = useContext(MapContext);
 
   const domain = [-1000, 1000];
   const scale = 780;
@@ -31,30 +36,40 @@ const App = () => {
   const yScale = 400;
 
   useEffect(() => {
+    if (!us) getData('us', setUS);
+    if (!districts) getData('districts', setDistricts);
     if (!data) getData('data', setData);
   }, []);
 
   return (
     data && (
-      <StateProvider>
-        <AppWrapper className="App">
-          <Navigation
-            years={Object.keys(data['1'].data).map(
-              yearString => yearString.match(/\d+/)[0],
-            )}
-          />
-          <Legend domain={domain} steps={19} />
+      <AppWrapper className="App">
+        <Navigation
+          years={Object.keys(data['1'].data).map(
+            yearString => yearString.match(/\d+/)[0],
+          )}
+        />
+        <Legend domain={domain} steps={19} />
+        {context.activeState ? (
+          ''
+        ) : (
           <USMap
+            us={us}
+            districts={districts}
             data={data}
             domain={domain}
             scale={scale}
             xScale={xScale}
             yScale={yScale}
           />
-        </AppWrapper>
-      </StateProvider>
+        )}
+      </AppWrapper>
     )
   );
 };
 
-export default App;
+export default () => (
+  <StateProvider>
+    <App />
+  </StateProvider>
+);

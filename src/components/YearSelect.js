@@ -24,14 +24,14 @@ const StyledSlider = styled.div`
 `;
 
 const YearSelect = ({ years }) => {
-  const { data, updateData } = useContext(MapContext);
+  const { context, updateContext } = useContext(MapContext);
   const min = Math.min(...years);
   const max = Math.max(...years);
 
   return (
     <div>
       <NavSectionHeading htmlFor="year-select">
-        Select Year: {data.year.match(/\d+/)[0]}
+        Select Year: {context.year.match(/\d+/)[0]}
       </NavSectionHeading>
       <StyledSlider>
         <div>{min}</div>
