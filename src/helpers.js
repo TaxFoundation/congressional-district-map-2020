@@ -37,3 +37,17 @@ export const formatter = (number, type) => {
     return format(',.0f')(number);
   }
 };
+
+export const getData = async (path, setTheData) => {
+  const cachedData = localStorage.getItem(path);
+
+  const tfUrl = 'https://biden-plan-map-2021.netlify.app/';
+  const response = await fetch(
+    `${
+      process.env.REACT_APP_ENV === 'taxfoundation' ? tfUrl : ''
+    }data/${path}.json`,
+  );
+  const json = await response.json();
+  localStorage.setItem(path, JSON.stringify(json));
+  setTheData(json);
+};

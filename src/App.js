@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 import { StateProvider } from './context';
+import { getData } from './helpers';
 import USMap from './components/USMap';
 // import StateMap from './components/StateMap';
 
@@ -20,10 +21,6 @@ const AppWrapper = styled.div`
 `;
 
 const App = () => {
-  const [us, setUS] = useState(JSON.parse(localStorage.getItem('us')) || null);
-  const [districts, setDistricts] = useState(
-    JSON.parse(localStorage.getItem('districts')) || null,
-  );
   const [data, setData] = useState(
     JSON.parse(localStorage.getItem('data')) || null,
   );
@@ -33,29 +30,11 @@ const App = () => {
   const xScale = 600;
   const yScale = 400;
 
-  const getData = async (path, setTheData) => {
-    const cachedData = localStorage.getItem(path);
-
-    const tfUrl = 'https://biden-plan-map-2021.netlify.app/';
-    const response = await fetch(
-      `${
-        process.env.REACT_APP_ENV === 'taxfoundation' ? tfUrl : ''
-      }data/${path}.json`,
-    );
-    const json = await response.json();
-    localStorage.setItem(path, JSON.stringify(json));
-    setTheData(json);
-  };
-
   useEffect(() => {
-    if (!us) getData('us', setUS);
-    if (!districts) getData('districts', setDistricts);
     if (!data) getData('data', setData);
   }, []);
 
   return (
-    us &&
-    districts &&
     data && (
       <StateProvider>
         <AppWrapper className="App">
@@ -66,8 +45,6 @@ const App = () => {
           />
           <Legend domain={domain} steps={19} />
           <USMap
-            us={us}
-            districts={districts}
             data={data}
             domain={domain}
             scale={scale}

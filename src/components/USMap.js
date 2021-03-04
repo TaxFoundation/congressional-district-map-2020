@@ -1,10 +1,11 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { geoAlbers, geoPath } from 'd3-geo';
 import { feature } from 'topojson-client';
 
 import { MapContext } from '../context';
+import { getData } from '../helpers';
 import HoverContainer from './HoverContainer';
 import { colorize, formatter } from '../helpers';
 
@@ -37,17 +38,18 @@ const District = styled.path`
   transition: fill 0.2s ease-in-out;
 `;
 
-const USMap = ({
-  us,
-  districts,
-  updateActiveState,
-  scale,
-  domain,
-  xScale,
-  yScale,
-  data,
-}) => {
+const USMap = ({ updateActiveState, scale, domain, xScale, yScale, data }) => {
   const { data: stateData } = useContext(MapContext);
+  const [us, setUS] = useState(JSON.parse(localStorage.getItem('us')) || null);
+  const [districts, setDistricts] = useState(
+    JSON.parse(localStorage.getItem('districts')) || null,
+  );
+
+  useEffect(() => {
+    if (!us) getData('us', setUS);
+    if (!districts) getData('districts', setDistricts);
+  }, []);
+
   const path = geoPath().projection(
     geoAlbers()
       .scale(scale)
