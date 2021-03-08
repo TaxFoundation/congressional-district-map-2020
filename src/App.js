@@ -24,7 +24,7 @@ const App = () => {
   const us = useData('us');
   const districts = useData('districts');
   const data = useData('data');
-  const [activeState, setActiveState] = useState(9);
+  const [activeState, setActiveState] = useState(6);
   const { context, updateContext } = useContext(MapContext);
 
   const domain = [-1000, 1000];

@@ -54,7 +54,7 @@ const StateMap = ({
   }, [activeDistrict]);
 
   if (stateMapData) {
-    districtsFeatures = feature(stateMapData, stateMapData.objects[id]);
+    districtsFeatures = feature(stateMapData, stateMapData.objects[FIPS]);
     if (id === 2 || id === 15) {
       path = geoPath().projection(
         geoAlbersUsa().fitSize([xScale, yScale], districtsFeatures),
