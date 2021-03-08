@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 
 import { MapContext, StateProvider } from './context';
-import { getData } from './helpers';
+import { useData } from './helpers';
 import USMap from './components/USMap';
 // import StateMap from './components/StateMap';
 
@@ -21,13 +21,9 @@ const AppWrapper = styled.div`
 `;
 
 const App = () => {
-  const [us, setUS] = useState(JSON.parse(localStorage.getItem('us')) || null);
-  const [districts, setDistricts] = useState(
-    JSON.parse(localStorage.getItem('districts')) || null,
-  );
-  const [data, setData] = useState(
-    JSON.parse(localStorage.getItem('data')) || null,
-  );
+  const us = useData('us');
+  const districts = useData('districts');
+  const data = useData('data');
   const { context } = useContext(MapContext);
 
   const domain = [-1000, 1000];
@@ -35,13 +31,9 @@ const App = () => {
   const xScale = 600;
   const yScale = 400;
 
-  useEffect(() => {
-    if (!us) getData('us', setUS);
-    if (!districts) getData('districts', setDistricts);
-    if (!data) getData('data', setData);
-  }, []);
-
   return (
+    us &&
+    districts &&
     data && (
       <AppWrapper className="App">
         <Navigation

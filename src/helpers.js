@@ -1,5 +1,6 @@
 import chroma from 'chroma-js';
 import { format } from 'd3-format';
+import { useState, useEffect } from 'react';
 
 export const colorize = (value, domain) => {
   return chroma
@@ -38,16 +39,41 @@ export const formatter = (number, type) => {
   }
 };
 
-export const getData = async (path, setTheData) => {
-  const cachedData = localStorage.getItem(path);
+export const useData = path => {
+  const [state, setState] = useState(JSON.parse(localStorage.getItem(path)));
+  console.log(state);
+  useEffect(() => {
+    const abortController = new AbortController();
 
-  const tfUrl = 'https://biden-plan-map-2021.netlify.app/';
-  const response = await fetch(
-    `${
-      process.env.REACT_APP_ENV === 'taxfoundation' ? tfUrl : ''
-    }data/${path}.json`,
-  );
-  const json = await response.json();
-  localStorage.setItem(path, JSON.stringify(json));
-  setTheData(json);
+    const fetchData = async () => {
+      if (!state) {
+        try {
+          const tfUrl = 'https://biden-plan-map-2021.netlify.app/';
+          const url = `${
+            process.env.REACT_APP_ENV === 'taxfoundation' ? tfUrl : ''
+          }data/${path}.json`;
+          const response = await fetch(url, { signal: abortController.signal });
+
+          if (!response.ok) {
+            throw new Error(`${response.status} ${response.statusText}`);
+          }
+
+          const json = await response.json();
+          localStorage.setItem(path, JSON.stringify(json));
+          console.log(json);
+          setState(json);
+        } catch (e) {
+          if (!abortController.signal.aborted) {
+            console.error(e);
+          }
+        }
+      }
+    };
+    fetchData();
+
+    return () => {
+      abortController.abort();
+    };
+  }, [path]);
+  return state;
 };
