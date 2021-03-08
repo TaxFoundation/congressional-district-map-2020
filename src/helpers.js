@@ -48,10 +48,11 @@ export const useData = path => {
     const fetchData = async () => {
       if (!state) {
         try {
-          const tfUrl = 'https://biden-plan-map-2021.netlify.app/';
-          const url = `${
-            process.env.REACT_APP_ENV === 'taxfoundation' ? tfUrl : ''
-          }data/${path}.json`;
+          // const tfUrl = 'https://biden-plan-map-2021.netlify.app/';
+          // const url = `${
+          //   process.env.REACT_APP_ENV === 'taxfoundation' ? tfUrl : ''
+          // }data/${path}.json`;
+          const url = `data/${path}.json`;
           const response = await fetch(url, { signal: abortController.signal });
 
           if (!response.ok) {
