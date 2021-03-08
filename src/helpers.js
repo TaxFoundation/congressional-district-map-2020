@@ -41,7 +41,7 @@ export const formatter = (number, type) => {
 
 export const useData = path => {
   const [state, setState] = useState(JSON.parse(localStorage.getItem(path)));
-  console.log(state);
+
   useEffect(() => {
     const abortController = new AbortController();
 

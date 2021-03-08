@@ -43,7 +43,7 @@ const YearSelect = ({ years }) => {
           step="1"
           list="years"
           onChange={e => {
-            updateData({ id: 'UPDATE_YEAR', value: `y${e.target.value}` });
+            updateContext({ id: 'UPDATE_YEAR', value: `y${e.target.value}` });
           }}
         />
         <div>{max}</div>

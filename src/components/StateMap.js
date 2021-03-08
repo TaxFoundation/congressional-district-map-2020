@@ -1,11 +1,11 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component, Fragment, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import HoverContainer from './HoverContainer';
 import { geoAlbersUsa, geoMercator, geoPath } from 'd3-geo';
 import { feature } from 'topojson-client';
-import DistrictTable from './DistrictTable';
-import { colorize } from '../helpers';
+// import DistrictTable from './DistrictTable';
+import { colorize, useData } from '../helpers';
 
 const Container = styled.div`
   display: grid;
@@ -31,125 +31,94 @@ const BG = styled.rect`
   width: ${props => props.width};
 `;
 
-class StateMap extends Component {
-  state = {
-    activeDistrict: 0,
-    data: null,
-    activeState: this.props.activeState,
-  };
+const StateMap = ({
+  id,
+  data,
+  updateActiveState,
+  scale,
+  domain,
+  xScale,
+  yScale,
+}) => {
+  const FIPS = id < 10 ? '0' + id : id;
+  const stateMapData = useData(`states/${FIPS}`);
+  const [activeDistrict, setActiveDistrict] = useState(1);
+  const [displayData, setDisplayData] = useState(data.d1);
 
-  updateActiveDistrict = id =>
-    this.setState({
-      activeDistrict: id,
-      data: this.props.data[id][this.props.activeBucket],
-    });
+  let districtsFeatures,
+    path,
+    districtShapes = null;
 
-  componentDidMount() {
-    let activeDistrict = 0;
-    if (Object.keys(this.props.data).length > 1) {
-      activeDistrict = 1;
-      this.updateActiveDistrict(activeDistrict);
+  useEffect(() => {
+    setDisplayData(data[`d${activeDistrict}`]);
+  }, [activeDistrict]);
+
+  if (stateMapData) {
+    districtsFeatures = feature(stateMapData, stateMapData.objects[id]);
+    if (id === 2 || id === 15) {
+      path = geoPath().projection(
+        geoAlbersUsa().fitSize([xScale, yScale], districtsFeatures),
+      );
+    } else {
+      path = geoPath().projection(
+        geoMercator().fitSize([xScale, yScale], districtsFeatures),
+      );
     }
-    this.setState({
-      data: this.props.data[activeDistrict][this.props.activeBucket],
-    });
-  }
 
-  static getDerivedStateFromProps(nextProps, prevState) {
-    if (nextProps.activeState !== prevState.activeState) {
-      if (Object.keys(nextProps.data).length === 1) {
-        return { activeDistrict: 0, activeState: nextProps.activeState };
+    districtShapes = districtsFeatures.features.map(d => {
+      const districtId = +d.properties.CD114FP;
+      if (data[`d${districtId}`]) {
+        const districtData = data[`d${districtId}`];
+
+        return (
+          <District
+            d={path(d)}
+            fill={
+              districtData?.netChange
+                ? colorize(districtData.netChange, domain)
+                : '#888'
+            }
+            id={`district-detail-${d.properties.CD114FP}`}
+            key={`district-detail-${d.properties.CD114FP}`}
+            active={districtId === +id}
+            onMouseOver={() =>
+              districtId > 0 ? setActiveDistrict(districtId) : null
+            }
+          />
+        );
       } else {
-        return { activeDistrict: 1, activeState: nextProps.activeState };
+        return null;
       }
-    } else {
-      return null;
-    }
+    });
   }
 
-  render() {
-    if (this.props.stateData === null) {
-      return null;
-    } else {
-      const districtsFeatures = feature(
-        this.props.stateData,
-        this.props.stateData.objects[
-          this.props.activeState < 10 ? `0${this.props.activeState}` : this.props.activeState
-        ],
-      );
-
-      const path = geoPath().projection(
-        geoMercator().fitSize(
-          [this.props.scale.xScale, this.props.scale.yScale],
-          districtsFeatures,
-        ),
-      );
-
-      const altPath = geoPath().projection(
-        geoAlbersUsa().fitSize(
-          [this.props.scale.xScale, this.props.scale.yScale],
-          districtsFeatures,
-        ),
-      );
-
-      const districtShapes = districtsFeatures.features.map(d => {
-        const districtId = +d.properties.CD114FP;
-        if (this.props.data[districtId]) {
-          const districtData = this.props.data[districtId][this.props.activeBucket];
-
-          return (
-            <District
-              d={
-                this.props.activeState === 2 || this.props.activeState === 15 ? altPath(d) : path(d)
-              }
-              fill={
-                districtData && districtData.i
-                  ? colorize(districtData.t / districtData.i, this.props.domain)
-                  : '#888'
-              }
-              id={`district-detail-${d.properties.CD114FP}`}
-              key={`district-detail-${d.properties.CD114FP}`}
-              active={+districtId === +this.state.activeDistrict}
-              onMouseOver={e => (districtId > 0 ? this.updateActiveDistrict(districtId) : null)}
+  return (
+    stateMapData && (
+      <>
+        <Container>
+          <svg width="100%" viewBox={`0 0 ${xScale} ${yScale}`}>
+            <BG
+              data-tip
+              data-for="go-back"
+              height={yScale}
+              width={xScale}
+              onClick={() => updateActiveState(0)}
             />
-          );
-        } else {
-          return null;
-        }
-      });
-
-      return (
-        <Fragment>
-          <Container>
-            <svg width="100%" viewBox={`0 0 ${this.props.scale.xScale} ${this.props.scale.yScale}`}>
-              <BG
-                data-tip
-                data-for="go-back"
-                height={this.props.scale.yScale}
-                width={this.props.scale.xScale}
-                onClick={e => this.props.updateActiveState(0)}
-              />
-              {districtShapes}
-            </svg>
-            <DistrictTable
-              data={this.props.data}
-              activeBucket={this.props.activeBucket}
-              activeState={this.props.activeState}
-              activeDistrict={this.state.activeDistrict}
-              updateActiveDistrict={this.updateActiveDistrict}
-              updateActiveState={this.props.updateActiveState}
-            />
-          </Container>
-          <HoverContainer id="go-back">Click to return to US map.</HoverContainer>
-        </Fragment>
-      );
-    }
-  }
-}
-
-StateMap.propTypes = {
-  activeState: PropTypes.number,
-  updateActiveState: PropTypes.func,
+            {districtShapes}
+          </svg>
+          {/* <DistrictTable
+          data={data}
+          activeBucket={activeBucket}
+          activeState={activeState}
+          activeDistrict={this.state.activeDistrict}
+          updateActiveDistrict={this.updateActiveDistrict}
+          updateActiveState={updateActiveState}
+        /> */}
+        </Container>
+        <HoverContainer id="go-back">Click to return to US map.</HoverContainer>
+      </>
+    )
+  );
 };
 
 export default StateMap;

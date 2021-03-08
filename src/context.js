@@ -1,7 +1,6 @@
 import { createContext, useReducer } from 'react';
 
 const initialState = {
-  activeState: null,
   year: 'y2021',
   PAYROLL: true,
   MARGINAL_RATE: true,
@@ -18,6 +17,8 @@ export const MapContext = createContext();
 
 const mapReducer = (state, action) => {
   switch (action.id) {
+    case 'UPDATE_ACTIVE_STATER':
+      return { ...state, activeState: action.value };
     case 'UPDATE_YEAR':
       return { ...state, year: action.value };
     case 'TOGGLE_PAYROLL':
