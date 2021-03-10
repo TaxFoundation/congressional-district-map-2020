@@ -104,11 +104,11 @@ const DistrictTable = ({
               <ValueCell
                 color={
                   data[`d${activeDistrict}`].netChange >= 0
-                    ? '#00aa22'
-                    : '#ef4438'
+                    ? '#ef4438'
+                    : '#00aa22'
                 }
               >
-                {formatter(data[`d${activeDistrict}`].netChange, '$')}
+                {formatter(Math.abs(data[`d${activeDistrict}`].netChange), '$')}
               </ValueCell>
             </tr>
           </tbody>
