@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import HoverContainer from './HoverContainer';
 import { geoAlbersUsa, geoMercator, geoPath } from 'd3-geo';
 import { feature } from 'topojson-client';
-// import DistrictTable from './DistrictTable';
+import DistrictTable from './DistrictTable';
 import { colorize, useData } from '../helpers';
 
 const Container = styled.div`
@@ -43,15 +43,10 @@ const StateMap = ({
   const FIPS = id < 10 ? '0' + id : id;
   const stateMapData = useData(`states/${FIPS}`);
   const [activeDistrict, setActiveDistrict] = useState(1);
-  const [displayData, setDisplayData] = useState(data.d1);
 
   let districtsFeatures,
     path,
     districtShapes = null;
-
-  useEffect(() => {
-    setDisplayData(data[`d${activeDistrict}`]);
-  }, [activeDistrict]);
 
   if (stateMapData) {
     districtsFeatures = feature(stateMapData, stateMapData.objects[FIPS]);
@@ -67,9 +62,8 @@ const StateMap = ({
 
     districtShapes = districtsFeatures.features.map(d => {
       const districtId = +d.properties.CD114FP;
-      if (data[`d${districtId}`]) {
-        const districtData = data[`d${districtId}`];
-
+      const districtData = data[`d${districtId}`];
+      if (districtData) {
         return (
           <District
             d={path(d)}
@@ -78,9 +72,9 @@ const StateMap = ({
                 ? colorize(districtData.netChange, domain)
                 : '#888'
             }
-            id={`district-detail-${d.properties.CD114FP}`}
-            key={`district-detail-${d.properties.CD114FP}`}
-            active={districtId === +id}
+            id={`district-detail-${districtId}`}
+            key={`district-detail-${districtId}`}
+            active={districtId === activeDistrict}
             onMouseOver={() =>
               districtId > 0 ? setActiveDistrict(districtId) : null
             }
@@ -106,14 +100,12 @@ const StateMap = ({
             />
             {districtShapes}
           </svg>
-          {/* <DistrictTable
-          data={data}
-          activeBucket={activeBucket}
-          activeState={activeState}
-          activeDistrict={this.state.activeDistrict}
-          updateActiveDistrict={this.updateActiveDistrict}
-          updateActiveState={updateActiveState}
-        /> */}
+          <DistrictTable
+            data={data}
+            activeDistrict={activeDistrict}
+            updateActiveDistrict={setActiveDistrict}
+            updateActiveState={updateActiveState}
+          />
         </Container>
         <HoverContainer id="go-back">Click to return to US map.</HoverContainer>
       </>
