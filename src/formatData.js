@@ -4,7 +4,7 @@ const d3 = require('d3-dsv');
 const states = require('./data/states.json');
 
 const SOURCE_DIR = path.join(__dirname, '/data/originals');
-const OUTPUT_DIR = path.join(__dirname, '../public/data');
+const OUTPUT_DIR = path.join(__dirname, '../public/data/tax');
 
 fs.emptyDirSync(OUTPUT_DIR);
 
