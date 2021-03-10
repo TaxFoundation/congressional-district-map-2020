@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 
 import { MapContext, StateProvider } from './context';
-import { useData } from './helpers';
+import { useData, useQueryParams } from './helpers';
 import USMap from './components/USMap';
 import StateMap from './components/StateMap';
 
@@ -24,8 +24,8 @@ const App = () => {
   const us = useData('us/us');
   const districts = useData('us/districts');
   const data = useData('tax/data');
-  const [activeState, setActiveState] = useState(null);
-  const { context, updateContext } = useContext(MapContext);
+  const [activeState, setActiveState] = useQueryParams('state', null);
+  const { context } = useContext(MapContext);
 
   const domain = [-1000, 1000];
   const scale = 780;

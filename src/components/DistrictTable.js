@@ -63,6 +63,7 @@ const DistrictTable = ({
   data,
   activeDistrict,
   updateActiveDistrict,
+  activeState,
   updateActiveState,
 }) => {
   const districtIds = Object.keys(data)

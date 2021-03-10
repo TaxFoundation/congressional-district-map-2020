@@ -78,3 +78,37 @@ export const useData = path => {
   }, [path]);
   return state;
 };
+
+const getQuery = () => {
+  if (typeof window !== 'undefined') {
+    return new URLSearchParams(window.location.search);
+  }
+  return new URLSearchParams();
+};
+
+const getQueryStringValue = key => getQuery().get(key);
+
+export const useQueryParams = (key, defaultVal) => {
+  const [query, setQuery] = useState(getQueryStringValue(key) || defaultVal);
+
+  const updateUrl = newVal => {
+    setQuery(newVal);
+
+    const query = getQuery();
+
+    if (newVal) {
+      query.set(key, newVal);
+    } else {
+      query.delete(key);
+    }
+
+    // This check is necessary if using the hook with Gatsby
+    if (typeof window !== 'undefined') {
+      const { protocol, pathname, host } = window.location;
+      const newUrl = `${protocol}//${host}${pathname}?${query.toString()}`;
+      window.history.pushState({}, '', newUrl);
+    }
+  };
+
+  return [query, updateUrl];
+};

@@ -103,7 +103,6 @@ const USMap = ({
         data-html={true}
         key={`state-${d.id}`}
         onClick={() => {
-          console.log(+d.id);
           updateActiveState(+d.id);
         }}
       />

@@ -42,7 +42,9 @@ const StateMap = ({
 }) => {
   const FIPS = id < 10 ? '0' + id : id;
   const stateMapData = useData(`states/${FIPS}`);
-  const [activeDistrict, setActiveDistrict] = useState(1);
+  const [activeDistrict, setActiveDistrict] = useState(
+    Object.keys(data).length > 1 ? 1 : 0,
+  );
 
   let districtsFeatures,
     path,
@@ -104,6 +106,7 @@ const StateMap = ({
             data={data}
             activeDistrict={activeDistrict}
             updateActiveDistrict={setActiveDistrict}
+            activeState={id}
             updateActiveState={updateActiveState}
           />
         </Container>
