@@ -17,8 +17,6 @@ export const MapContext = createContext();
 
 const mapReducer = (state, action) => {
   switch (action.id) {
-    case 'UPDATE_ACTIVE_STATER':
-      return { ...state, activeState: action.value };
     case 'UPDATE_YEAR':
       return { ...state, year: action.value };
     case 'TOGGLE_PAYROLL':

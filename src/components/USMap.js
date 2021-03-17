@@ -5,9 +5,8 @@ import { geoAlbers, geoPath } from 'd3-geo';
 import { feature } from 'topojson-client';
 
 import { MapContext } from '../context';
-import { getData } from '../helpers';
+import { showSumOfPolicies, colorize, formatter } from '../helpers';
 import HoverContainer from './HoverContainer';
-import { colorize, formatter } from '../helpers';
 
 const State = styled.path`
   cursor: pointer;
@@ -69,8 +68,8 @@ const USMap = ({
         <District
           d={path(d)}
           fill={
-            districtData && districtData.netChange
-              ? colorize(districtData.netChange, domain)
+            districtData
+              ? colorize(showSumOfPolicies(districtData, context), domain)
               : '#888'
           }
           id={`district-${d.id}`}

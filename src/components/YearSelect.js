@@ -30,9 +30,7 @@ const YearSelect = ({ years }) => {
 
   return (
     <div>
-      <NavSectionHeading htmlFor="year-select">
-        Select Year: {context.year.match(/\d+/)[0]}
-      </NavSectionHeading>
+      <NavSectionHeading htmlFor="year-select">Select Year</NavSectionHeading>
       <StyledSlider>
         <div>{min}</div>
         <input
@@ -53,6 +51,9 @@ const YearSelect = ({ years }) => {
           <option key={`range-year-${year}`} value={year} label={year}></option>
         ))}
       </datalist>
+      <div style={{ textAlign: 'center' }}>{`Current Year: ${
+        context.year.match(/\d+/)[0]
+      }`}</div>
     </div>
   );
 };

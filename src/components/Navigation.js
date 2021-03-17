@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import styled from 'styled-components';
 
 import YearSelect from './YearSelect';
+import PolicySelect from './PolicySelect';
 
 const Container = styled.div`
   background-color: #f5f5f5;
@@ -40,6 +41,7 @@ const Navigation = ({ years }) => {
   return (
     <Container>
       <YearSelect years={years} />
+      <PolicySelect />
     </Container>
   );
 };

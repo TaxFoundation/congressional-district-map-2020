@@ -2,6 +2,17 @@ import chroma from 'chroma-js';
 import { format } from 'd3-format';
 import { useState, useEffect } from 'react';
 
+import policies from './data/policies.json';
+
+export const showSumOfPolicies = (district, context) => {
+  return policies.reduce((acc, policy) => {
+    if (context[policy.id]) {
+      return (acc += district[policy.shorthand]);
+    }
+    return 0;
+  }, 0);
+};
+
 export const colorize = (value, domain) => {
   return chroma
     .scale([

@@ -29,7 +29,15 @@ for (let i = 0, j = files.length; i < j; i++) {
     }
 
     outputData[state].data[year][district] = {
-      netChange: Math.round(+row.NET_TAX_CHANGE_PER_FILER * 100) / 100,
+      p: Math.round(+row.PAYROLL_PER_FILER * 100) / 100,
+      mr: Math.round(+row.MARGINAL_RATE_PER_FILER * 100) / 100,
+      pl: Math.round(+row.PEASE_LIMIT_PER_FILER * 100) / 100,
+      cg: Math.round(+row.CAPITAL_GAINS_AND_DIVIDENDS_PER_FILER * 100) / 100,
+      il: Math.round(+row.ITEMIZED_LIMIT_PER_FILER * 100) / 100,
+      bd: Math.round(+row.BUSINESS_DEDUCTION_PER_FILER * 100) / 100,
+      ctc: Math.round(+row.CTC_PER_FILER * 100) / 100,
+      cd: Math.round(+row.CDCTC_PER_FILER * 100) / 100,
+      hc: Math.round(+row.HOMEBUYER_CREDIT_PER_FILER * 100) / 100,
     };
   });
 }

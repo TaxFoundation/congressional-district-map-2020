@@ -1,11 +1,12 @@
-import React, { Component, Fragment, useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
+import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
-import HoverContainer from './HoverContainer';
 import { geoAlbersUsa, geoMercator, geoPath } from 'd3-geo';
 import { feature } from 'topojson-client';
+
+import { MapContext } from '../context';
+import { colorize, useData, showSumOfPolicies } from '../helpers';
 import DistrictTable from './DistrictTable';
-import { colorize, useData } from '../helpers';
+import HoverContainer from './HoverContainer';
 
 const Container = styled.div`
   display: grid;
@@ -40,6 +41,7 @@ const StateMap = ({
   xScale,
   yScale,
 }) => {
+  const { context } = useContext(MapContext);
   const FIPS = id < 10 ? '0' + id : id;
   const stateMapData = useData(`states/${FIPS}`);
   const [activeDistrict, setActiveDistrict] = useState(
@@ -70,8 +72,8 @@ const StateMap = ({
           <District
             d={path(d)}
             fill={
-              districtData?.netChange
-                ? colorize(districtData.netChange, domain)
+              districtData
+                ? colorize(showSumOfPolicies(districtData, context), domain)
                 : '#888'
             }
             id={`district-detail-${districtId}`}
