@@ -22,7 +22,7 @@ const Container = styled.div`
   margin-bottom: 1rem;
 
   @media (min-width: 600px) {
-    grid-template-columns: repeat(2, auto);
+    grid-template-columns: repeat(2, 1fr);
     grid-template-areas:
       'years states'
       'policies policies';
