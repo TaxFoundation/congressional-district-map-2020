@@ -10,11 +10,11 @@ import HoverContainer from './HoverContainer';
 
 const Container = styled.div`
   display: grid;
-  grid-gap: 2rem;
+  grid-gap: 1rem;
   grid-template: repeat(2, auto) / auto;
 
   @media (min-width: 800px) {
-    grid-template: auto / 3fr 1fr;
+    grid-template: auto / 65% 35%;
   }
 `;
 

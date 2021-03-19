@@ -27,7 +27,7 @@ const Table = styled.table`
   width: 100%;
 
   tr:first-child > td {
-    font-size: 1.2rem !important;
+    font-size: 18px !important;
   }
 
   tr > td {
