@@ -106,7 +106,7 @@ export const useQueryParams = (key, defaultVal) => {
 
     const query = getQuery();
 
-    if (!Number.isNaN(newVal)) {
+    if (!Number.isNaN(newVal) && newVal !== 0) {
       query.set(key, newVal);
     } else {
       query.delete(key);
