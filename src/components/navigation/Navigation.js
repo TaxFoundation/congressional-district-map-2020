@@ -16,7 +16,7 @@ const Container = styled.div`
   grid-template-areas:
     'years'
     'states'
-    'policies'
+    'policies';
   justify-items: stretch;
   padding: 1rem;
   margin-bottom: 1rem;
