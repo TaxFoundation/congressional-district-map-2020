@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import styled from 'styled-components';
 
 import YearSelect from './YearSelect';
+import StateSelect from './StateSelect';
 import PolicySelect from './PolicySelect';
 
 const Container = styled.div`
@@ -12,13 +13,19 @@ const Container = styled.div`
   font-family: 'Lato', sans-serif;
   font-size: 1rem;
   grid-gap: 1rem;
-  grid-template: auto / repeat(2, 1fr);
+  grid-template-areas:
+    'years'
+    'states'
+    'policies'
   justify-items: stretch;
   padding: 1rem;
   margin-bottom: 1rem;
 
-  @media (max-width: 600px) {
-    grid-template: repeat(2, auto) / auto;
+  @media (min-width: 600px) {
+    grid-template-columns: repeat(2, auto);
+    grid-template-areas:
+      'years states'
+      'policies policies';
   }
 `;
 
@@ -37,11 +44,16 @@ const Tooltip = styled.span`
   top: -0.25rem;
 `;
 
-const Navigation = ({ years }) => {
+const Navigation = ({ years, activeState, setActiveState }) => {
   return (
     <Container>
-      <YearSelect years={years} />
-      <PolicySelect />
+      <YearSelect area="years" years={years} />
+      <StateSelect
+        area="states"
+        activeState={activeState}
+        setActiveState={setActiveState}
+      />
+      <PolicySelect area="policies" />
     </Container>
   );
 };

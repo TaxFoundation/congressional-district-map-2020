@@ -86,8 +86,8 @@ const USMap = ({
     let districtValues,
       avgNetChange = null;
     if (stateInfo) {
-      districtValues = Object.values(stateInfo.data[context.year]).map(
-        d => d.netChange,
+      districtValues = Object.values(stateInfo.data[context.year]).map(d =>
+        showSumOfPolicies(d, context),
       );
       avgNetChange =
         districtValues.reduce((acc, curr) => acc + curr, 0) /

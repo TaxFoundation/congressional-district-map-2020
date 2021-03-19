@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
+
+import { MapContext } from '../context';
 import Button from './Button';
 import Select from './Select';
-import { formatter } from '../helpers';
+import { formatter, showSumOfPolicies } from '../helpers';
 import SocialButtons from './SocialButtons';
 
 const StyledDistrictTable = styled.div`
@@ -70,6 +72,10 @@ const DistrictTable = ({
     .map(d => d.match(/\d+/)[0])
     .sort((a, b) => a - b);
 
+  const { context } = useContext(MapContext);
+
+  const districtTotals = showSumOfPolicies(data[`d${activeDistrict}`], context);
+
   return (
     <StyledDistrictTable>
       <div>
@@ -97,18 +103,9 @@ const DistrictTable = ({
         <Table>
           <tbody>
             <tr>
-              <td>
-                Avgerage Tax{' '}
-                {data[`d${activeDistrict}`].netChange >= 0 ? 'Increase' : 'Cut'}
-              </td>
-              <ValueCell
-                color={
-                  data[`d${activeDistrict}`].netChange >= 0
-                    ? '#ef4438'
-                    : '#00aa22'
-                }
-              >
-                {formatter(Math.abs(data[`d${activeDistrict}`].netChange), '$')}
+              <td>Avgerage Tax {districtTotals >= 0 ? 'Increase' : 'Cut'}</td>
+              <ValueCell color={districtTotals >= 0 ? '#ef4438' : '#00aa22'}>
+                {formatter(Math.abs(districtTotals), '$')}
               </ValueCell>
             </tr>
           </tbody>

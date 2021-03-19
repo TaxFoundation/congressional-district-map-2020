@@ -1,12 +1,14 @@
 import React, { useContext } from 'react';
 
-import { MapContext } from '../context';
-import policies from '../data/policies.json';
+import { MapContext } from '../../context';
+import policies from '../../data/policies.json';
+import NavHeading from './NavHeading';
 
-const PolicySelect = () => {
+const PolicySelect = ({ area }) => {
   const { context, updateContext } = useContext(MapContext);
   return (
-    <div>
+    <div style={{ gridArea: area }}>
+      <NavHeading>Select Policies</NavHeading>
       {policies.map(policy => {
         return (
           <div key={policy.id}>

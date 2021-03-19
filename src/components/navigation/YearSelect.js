@@ -1,17 +1,8 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
 
-import { MapContext } from '../context';
-
-const NavSectionHeading = styled.label`
-  display: block;
-  font-size: 1.4rem;
-  line-height: 1.4;
-  margin: 0 0 1rem;
-  text-align: center;
-  width: 100%;
-`;
-
+import { MapContext } from '../../context';
+import NavHeading from './NavHeading';
 const StyledSlider = styled.div`
   align-items: center;
   display: grid;
@@ -23,14 +14,14 @@ const StyledSlider = styled.div`
   }
 `;
 
-const YearSelect = ({ years }) => {
+const YearSelect = ({ years, area }) => {
   const { context, updateContext } = useContext(MapContext);
   const min = Math.min(...years);
   const max = Math.max(...years);
 
   return (
-    <div>
-      <NavSectionHeading htmlFor="year-select">Select Year</NavSectionHeading>
+    <div style={{ gridArea: area }}>
+      <NavHeading htmlFor="year-select">Select Year</NavHeading>
       <StyledSlider>
         <div>{min}</div>
         <input

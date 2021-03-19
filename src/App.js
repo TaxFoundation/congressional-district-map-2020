@@ -6,7 +6,7 @@ import { useData, useQueryParams } from './helpers';
 import USMap from './components/USMap';
 import StateMap from './components/StateMap';
 
-import Navigation from './components/Navigation';
+import Navigation from './components/navigation/Navigation';
 import Legend from './components/Legend';
 
 const AppWrapper = styled.div`
