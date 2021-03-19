@@ -7,10 +7,17 @@ import NavHeading from './NavHeading';
 
 const PoliciesContainer = styled.div`
   display: ${({ expanded }) => (expanded ? 'block' : 'none')};
+  font-size: 14px;
 
   @media screen and (min-width: 500px) {
     columns: 2;
   }
+`;
+
+const Policy = styled.div`
+  display: grid;
+  grid-gap: 0.5rem;
+  grid-template-columns: auto 1fr;
 `;
 
 const PolicySelect = ({ area }) => {
@@ -25,7 +32,7 @@ const PolicySelect = ({ area }) => {
       <PoliciesContainer expanded={expanded}>
         {policies.map(policy => {
           return (
-            <div key={policy.id}>
+            <Policy key={policy.id}>
               <input
                 id={policy.id}
                 type="checkbox"
@@ -33,7 +40,7 @@ const PolicySelect = ({ area }) => {
                 onChange={() => updateContext({ id: `TOGGLE_${policy.id}` })}
               />
               <label htmlFor={policy.id}>{policy.name}</label>
-            </div>
+            </Policy>
           );
         })}
       </PoliciesContainer>

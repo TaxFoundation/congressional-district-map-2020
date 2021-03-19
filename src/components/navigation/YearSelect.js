@@ -9,6 +9,10 @@ const StyledSlider = styled.div`
   grid-gap: 1rem;
   grid-template: auto / auto 1fr auto;
 
+  * {
+    font-size: 14px;
+  }
+
   input[type='range'] {
     width: 100%;
   }
@@ -42,7 +46,7 @@ const YearSelect = ({ years, area }) => {
           <option key={`range-year-${year}`} value={year} label={year}></option>
         ))}
       </datalist>
-      <div style={{ textAlign: 'center' }}>{`Current Year: ${
+      <div style={{ textAlign: 'center', fontSize: '14px' }}>{`Current Year: ${
         context.year.match(/\d+/)[0]
       }`}</div>
     </div>

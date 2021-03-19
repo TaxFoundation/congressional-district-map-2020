@@ -13,6 +13,7 @@ const LegendContainer = styled.div`
 
 const StyledLegendText = styled.p`
   font-size: 14px;
+  line-height: 1.2;
   margin: 0;
   padding: 0 15px;
   text-align: ${props => props.textAlign};

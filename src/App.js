@@ -41,6 +41,8 @@ const App = () => {
           years={Object.keys(data['1'].data).map(
             yearString => yearString.match(/\d+/)[0],
           )}
+          activeState={activeState}
+          setActiveState={setActiveState}
         />
         <Legend domain={domain} steps={19} />
         {activeState ? (

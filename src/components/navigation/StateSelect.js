@@ -30,7 +30,7 @@ const Select = styled.select`
   border-radius: 4px;
   cursor: pointer;
   grid-area: select;
-  font-size: 1rem;
+  font-size: 14px;
   text-align: center;
   width: 100%;
   z-index: 1;
