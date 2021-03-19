@@ -3,7 +3,22 @@ import styled from 'styled-components';
 
 import { MapContext } from '../../context';
 import policies from '../../data/policies.json';
-import NavHeading from './NavHeading';
+
+const Container = styled.div`
+  display: grid;
+  grid-gap: 10px;
+  grid-area: ${({ area }) => area};
+  justify-items: center;
+`;
+
+const SelectExpand = styled.button`
+  background-color: #0094ff;
+  border: 1px solid #0094ff;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-family: 'Lato', sans-serif;
+`;
 
 const PoliciesContainer = styled.div`
   display: ${({ expanded }) => (expanded ? 'block' : 'none')};
@@ -25,10 +40,10 @@ const PolicySelect = ({ area }) => {
   const [expanded, setExpanded] = useState(false);
 
   return (
-    <div style={{ gridArea: area }}>
-      <NavHeading onClick={() => setExpanded(!expanded)}>
+    <Container area={area}>
+      <SelectExpand onClick={() => setExpanded(!expanded)}>
         Select Policies
-      </NavHeading>
+      </SelectExpand>
       <PoliciesContainer expanded={expanded}>
         {policies.map(policy => {
           return (
@@ -44,7 +59,7 @@ const PolicySelect = ({ area }) => {
           );
         })}
       </PoliciesContainer>
-    </div>
+    </Container>
   );
 };
 

@@ -4,7 +4,7 @@ const NavHeadng = styled.label`
   display: block;
   font-size: 1rem;
   line-height: 1.4;
-  margin: 0 0 1rem;
+  margin: 0 0 10px;
   text-align: center;
   width: 100%;
 `;
