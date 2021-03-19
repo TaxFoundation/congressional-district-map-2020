@@ -48,7 +48,11 @@ const StateSelect = ({ activeState, setActiveState, area }) => {
         >
           <option value="0">United States</option>
           {states.map(state => {
-            return <option value={state.id}>{state.name}</option>;
+            return (
+              <option key={state.id} value={state.id}>
+                {state.name}
+              </option>
+            );
           })}
         </Select>
       </SelectContainer>

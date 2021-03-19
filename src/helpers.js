@@ -9,7 +9,7 @@ export const showSumOfPolicies = (district, context) => {
     if (context[policy.id]) {
       return (acc += district[policy.shorthand]);
     }
-    return 0;
+    return (acc += 0);
   }, 0);
 };
 
@@ -72,7 +72,6 @@ export const useData = path => {
 
           const json = await response.json();
           localStorage.setItem(path, JSON.stringify(json));
-          console.log(json);
           setState(json);
         } catch (e) {
           if (!abortController.signal.aborted) {
