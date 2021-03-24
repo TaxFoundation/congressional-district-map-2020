@@ -37,17 +37,10 @@ const District = styled.path`
   transition: fill 0.2s ease-in-out;
 `;
 
-const USMap = ({
-  us,
-  districts,
-  updateActiveState,
-  scale,
-  domain,
-  xScale,
-  yScale,
-  data,
-}) => {
+const USMap = ({ us, districts, updateActiveState, scale, domain, data }) => {
   const { context } = useContext(MapContext);
+  const xScale = 600;
+  const yScale = 400;
 
   const path = geoPath().projection(
     geoAlbers()

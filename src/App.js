@@ -30,8 +30,6 @@ const App = () => {
 
   const domain = [-1000, 1000];
   const scale = 780;
-  const xScale = 600;
-  const yScale = 400;
 
   useEffect(async () => {
     const usData = await fetchData('us/us');
@@ -69,6 +67,7 @@ const App = () => {
           setActiveState={setActiveState}
         />
         <Legend domain={domain} steps={19} />
+
         {activeState ? (
           stateMap?.objects[leadingZeroFIPS(activeState)] ? (
             <StateMap
@@ -78,8 +77,6 @@ const App = () => {
               updateActiveState={setActiveState}
               domain={domain}
               scale={scale}
-              xScale={xScale}
-              yScale={yScale}
             />
           ) : null
         ) : (
@@ -90,8 +87,6 @@ const App = () => {
             updateActiveState={setActiveState}
             domain={domain}
             scale={scale}
-            xScale={xScale}
-            yScale={yScale}
           />
         )}
       </AppWrapper>

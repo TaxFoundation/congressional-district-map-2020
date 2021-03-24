@@ -14,11 +14,12 @@ import DistrictTable from './DistrictTable';
 import HoverContainer from './HoverContainer';
 
 const Container = styled.div`
+  align-items: center;
   display: grid;
   grid-gap: 1rem;
   grid-template: repeat(2, auto) / auto;
 
-  @media (min-width: 800px) {
+  @media (min-width: 640px) {
     grid-template: auto / 65% 35%;
   }
 `;
@@ -45,13 +46,13 @@ const StateMap = ({
   updateActiveState,
   scale,
   domain,
-  xScale,
-  yScale,
 }) => {
   const { context } = useContext(MapContext);
   const [activeDistrict, setActiveDistrict] = useState(
     Object.keys(data).length > 1 ? 1 : 0,
   );
+  const xScale = 400;
+  const yScale = 400;
 
   let districtsFeatures,
     path,
