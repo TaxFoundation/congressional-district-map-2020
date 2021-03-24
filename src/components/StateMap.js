@@ -1,10 +1,15 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import { geoAlbersUsa, geoMercator, geoPath } from 'd3-geo';
 import { feature } from 'topojson-client';
 
 import { MapContext } from '../context';
-import { colorize, useData, showSumOfPolicies } from '../helpers';
+import {
+  colorize,
+  fetchData,
+  leadingZeroFIPS,
+  showSumOfPolicies,
+} from '../helpers';
 import DistrictTable from './DistrictTable';
 import HoverContainer from './HoverContainer';
 
@@ -35,6 +40,7 @@ const BG = styled.rect`
 
 const StateMap = ({
   id,
+  stateMapData,
   data,
   updateActiveState,
   scale,
@@ -43,8 +49,6 @@ const StateMap = ({
   yScale,
 }) => {
   const { context } = useContext(MapContext);
-  const FIPS = id < 10 ? '0' + id : id;
-  const stateMapData = useData(`states/${FIPS}`);
   const [activeDistrict, setActiveDistrict] = useState(
     Object.keys(data).length > 1 ? 1 : 0,
   );
@@ -54,7 +58,10 @@ const StateMap = ({
     districtShapes = null;
 
   if (stateMapData) {
-    districtsFeatures = feature(stateMapData, stateMapData.objects[FIPS]);
+    districtsFeatures = feature(
+      stateMapData,
+      stateMapData.objects[leadingZeroFIPS(id)],
+    );
     if (id === 2 || id === 15) {
       path = geoPath().projection(
         geoAlbersUsa().fitSize([xScale, yScale], districtsFeatures),

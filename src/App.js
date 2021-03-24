@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 
 import { MapContext, StateProvider } from './context';
-import { useData, useQueryParams } from './helpers';
+import { fetchData, leadingZeroFIPS, useQueryParams } from './helpers';
 import USMap from './components/USMap';
 import StateMap from './components/StateMap';
 
@@ -21,16 +21,40 @@ const AppWrapper = styled.div`
 `;
 
 const App = () => {
-  const us = useData('us/us');
-  const districts = useData('us/districts');
-  const data = useData('tax/data');
-  const [activeState, setActiveState] = useQueryParams('state', null);
+  const [us, setUs] = useState(null);
+  const [stateMap, setStateMap] = useState(null);
+  const [districts, setDistricts] = useState(null);
+  const [data, setData] = useState(null);
+  const [activeState, setActiveState] = useQueryParams('state', 0);
   const { context } = useContext(MapContext);
 
   const domain = [-1000, 1000];
   const scale = 780;
   const xScale = 600;
   const yScale = 400;
+
+  useEffect(async () => {
+    const usData = await fetchData('us/us');
+    const districtsData = await fetchData('us/districts');
+    const theData = await fetchData('tax/data');
+
+    setUs(usData);
+    setDistricts(districtsData);
+    setData(theData);
+  }, []);
+
+  useEffect(async () => {
+    if (activeState > 0) {
+      const stateMapData = await fetchData(
+        `states/${leadingZeroFIPS(activeState)}`,
+      );
+      setStateMap(stateMapData);
+    } else {
+      setStateMap(null);
+    }
+  }, [activeState]);
+
+  console.log(stateMap);
 
   return (
     us &&
@@ -46,15 +70,18 @@ const App = () => {
         />
         <Legend domain={domain} steps={19} />
         {activeState ? (
-          <StateMap
-            id={activeState}
-            data={data[activeState].data[context.year]}
-            updateActiveState={setActiveState}
-            domain={domain}
-            scale={scale}
-            xScale={xScale}
-            yScale={yScale}
-          />
+          stateMap?.objects[leadingZeroFIPS(activeState)] ? (
+            <StateMap
+              id={activeState}
+              stateMapData={stateMap}
+              data={data[activeState].data[context.year]}
+              updateActiveState={setActiveState}
+              domain={domain}
+              scale={scale}
+              xScale={xScale}
+              yScale={yScale}
+            />
+          ) : null
         ) : (
           <USMap
             us={us}

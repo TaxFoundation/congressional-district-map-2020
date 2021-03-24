@@ -50,43 +50,28 @@ export const formatter = (number, type) => {
   }
 };
 
-export const useData = path => {
-  const [state, setState] = useState(JSON.parse(localStorage.getItem(path)));
+export const leadingZeroFIPS = id => {
+  return id < 10 ? '0' + id : id;
+};
 
-  useEffect(() => {
-    const abortController = new AbortController();
+export const fetchData = async path => {
+  try {
+    // const tfUrl = 'https://biden-plan-map-2021.netlify.app/';
+    // const url = `${
+    //   process.env.REACT_APP_ENV === 'taxfoundation' ? tfUrl : ''
+    // }data/${path}.json`;
+    const url = `data/${path}.json`;
+    const response = await fetch(url);
 
-    const fetchData = async () => {
-      if (!state) {
-        try {
-          // const tfUrl = 'https://biden-plan-map-2021.netlify.app/';
-          // const url = `${
-          //   process.env.REACT_APP_ENV === 'taxfoundation' ? tfUrl : ''
-          // }data/${path}.json`;
-          const url = `data/${path}.json`;
-          const response = await fetch(url, { signal: abortController.signal });
+    if (!response.ok) {
+      throw new Error(`${response.status} ${response.statusText}`);
+    }
 
-          if (!response.ok) {
-            throw new Error(`${response.status} ${response.statusText}`);
-          }
-
-          const json = await response.json();
-          localStorage.setItem(path, JSON.stringify(json));
-          setState(json);
-        } catch (e) {
-          if (!abortController.signal.aborted) {
-            console.error(e);
-          }
-        }
-      }
-    };
-    fetchData();
-
-    return () => {
-      abortController.abort();
-    };
-  }, [path]);
-  return state;
+    const json = await response.json();
+    return json;
+  } catch (e) {
+    console.error(e);
+  }
 };
 
 const getQuery = () => {
