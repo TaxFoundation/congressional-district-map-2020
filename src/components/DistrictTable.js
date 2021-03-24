@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import styled from 'styled-components';
 
 import { MapContext } from '../context';
+import policies from '../data/policies.json';
 import Button from './Button';
 import Select from './Select';
 import { formatter, showSumOfPolicies } from '../helpers';
@@ -24,17 +25,15 @@ const StyledDistrictTable = styled.div`
 const Table = styled.table`
   border-collapse: collapse;
   font-size: 0.8rem !important;
+  margin: 0;
   width: 100%;
 
-  tr:first-child > td {
-    font-size: 18px !important;
-  }
-
-  tr > td {
+  td {
     background: #fff;
-    border-right: none;
-    border-bottom: 1px solid #ccc;
+    border: none;
+    border-top: 1px solid #ccc;
     font-family: 'Lato', sans-serif !important;
+    font-size: 14px;
     padding: 0.5rem 0;
 
     &:last-child {
@@ -42,8 +41,14 @@ const Table = styled.table`
     }
   }
 
-  tr:last-child > td {
+  tr:first-child > td {
     border: none;
+  }
+
+  tr:last-child > td {
+    border-top: 2px solid #aaa;
+    font-size: 16px;
+    font-weight: 700;
   }
 `;
 
@@ -102,6 +107,20 @@ const DistrictTable = ({
         )}
         <Table>
           <tbody>
+            {policies.map(policy => (
+              <tr>
+                <td>{policy.abbr}</td>
+                <ValueCell
+                  color={
+                    data[`d${activeDistrict}`][policy.shorthand] >= 0
+                      ? '#ef4438'
+                      : '#00aa22'
+                  }
+                >
+                  {formatter(data[`d${activeDistrict}`][policy.shorthand], '$')}
+                </ValueCell>
+              </tr>
+            ))}
             <tr>
               <td>Avgerage Tax {districtTotals >= 0 ? 'Increase' : 'Cut'}</td>
               <ValueCell color={districtTotals >= 0 ? '#ef4438' : '#00aa22'}>
@@ -122,23 +141,6 @@ const DistrictTable = ({
           Find out here.
         </a>
       </p>
-      <div>
-        <p
-          style={{
-            marginBottom: '8px',
-            textAlign: 'center',
-          }}
-        >
-          Share with your friends!
-        </p>
-        <SocialButtons />
-      </div>
-      <Button
-        href="https://taxfoundation.org/2018-tax-reform-congressional-district-map-explainer/"
-        style={{ alignSelf: 'end' }}
-      >
-        Full Methodology
-      </Button>
     </StyledDistrictTable>
   );
 };
