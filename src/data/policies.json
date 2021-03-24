@@ -2,46 +2,55 @@
     {
        "id": "PAYROLL",
        "shorthand": "p",
-       "name": "Apply a Social Security payroll tax of 12.4% to earnings above $400,000"
+       "name": "1. Apply a Social Security payroll tax of 12.4% to earnings above $400,000",
+       "abbr": "1. Payrol Tax"
     },
     {
        "id": "MARGINAL_RATE",
        "shorthand": "mr",
-       "name": "Raise the top ordinary income tax rate from 37% to 39.6%"
+       "name": "2. Raise the top ordinary income tax rate from 37% to 39.6%",
+       "abbr": "2. Marginal Rate"
     },
     {
        "id": "PEASE_LIMIT",
        "shorthand": "pl",
-       "name": "Reactivate the Pease limitation for income above $400,000"
+       "name": "3. Reactivate the Pease limitation for income above $400,000",
+       "abbr": "3. Pease Limit"
     },
     {
        "id": "CAPITAL_GAINS_AND_DIVIDENDS",
        "shorthand": "cg",
-       "name": "Tax capital gains and dividends at 39.6 percent on income over $1 million and repeal step-up in basis"
+       "name": "4. Tax capital gains and dividends at 39.6 percent on income over $1 million and repeal step-up in basis",
+       "abbr": "4. Capital Gains & Dividends"
     },
     {
        "id": "ITEMIZED_LIMIT",
        "shorthand": "il",
-       "name": "Limit the tax benefit of itemized deductions at 28% of value for those earning over $400,000"
+       "name": "5. Limit the tax benefit of itemized deductions at 28% of value for those earning over $400,000",
+       "abbr": "5. Itemized Limits"
     },
     {
        "id": "BUSINESS_DEDUCTION",
        "shorthand": "bd",
-       "name": "Phase out qualified business income deductions for income over $400,000"
+       "name": "6. Phase out qualified business income deductions for income over $400,000",
+       "abbr": "6. Business Deduction"
     },
     {
        "id": "CTC",
        "shorthand": "ctc",
-       "name": "Expand the Child Tax Credit (CTC) to $3,000 maximum value, $600 bonus for children under 6, and make the CTC fully refundable with no phase-in thresholds"
+       "name": "7. Expand the Child Tax Credit (CTC) to $3,000 maximum value, $600 bonus for children under 6, and make the CTC fully refundable with no phase-in thresholds",
+       "abbr": "7. Child Tax Credit"
     },
     {
        "id": "CDCTC",
        "shorthand": "cd",
-       "name": "Expand the Child and Dependent Care Tax Credit (CDCTC) to a maximum value of $8,000 and increase the refundability percentage to a maximum of 50 percent"
+       "name": "8. Expand the Child and Dependent Care Tax Credit (CDCTC) to a maximum value of $8,000 and increase the refundability percentage to a maximum of 50 percent",
+       "abbr": "8. Child and Dependent Tax Credit"
     },
     {
        "id": "HOMEBUYER_CREDIT",
        "shorthand": "hc",
-       "name": "Provide a First-Time Homebuyer Credit up to $15,000 in value"
+       "name": "9. Provide a First-Time Homebuyer Credit up to $15,000 in value",
+       "abbr": "9. Homebuyer Credit"
     }
  ]
