@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { geoAlbers, geoPath } from 'd3-geo';
@@ -7,6 +7,14 @@ import { feature } from 'topojson-client';
 import { MapContext } from '../context';
 import { showSumOfPolicies, colorize, formatter } from '../helpers';
 import HoverContainer from './HoverContainer';
+
+const MapContainer = styled.div`
+  position: relative;
+
+  svg {
+    position: absolute;
+  }
+`;
 
 const State = styled.path`
   cursor: pointer;
@@ -39,6 +47,7 @@ const District = styled.path`
 
 const USMap = ({ us, districts, updateActiveState, scale, domain, data }) => {
   const { context } = useContext(MapContext);
+  const canvasRef = useRef();
   const xScale = 600;
   const yScale = 400;
 
@@ -47,32 +56,58 @@ const USMap = ({ us, districts, updateActiveState, scale, domain, data }) => {
       .scale(scale)
       .translate([xScale / 2, yScale / 2 - 25]),
   );
-
   const districtsFeatures = feature(districts, districts.objects.districts)
     .features;
 
-  const districtShapes = districtsFeatures.map(d => {
-    const stateId = Math.floor(+d.id / 100);
-    const districtId = `d${d.id % 100}`;
-    let districtData;
-    if (data[stateId]?.data[context?.year][districtId]) {
-      districtData = data[stateId].data[context.year][districtId];
-      return (
-        <District
-          d={path(d)}
-          fill={
-            districtData
-              ? colorize(showSumOfPolicies(districtData, context), domain)
-              : '#888'
-          }
-          id={`district-${d.id}`}
-          key={`district-${d.id}`}
-        />
-      );
-    } else {
-      return null;
-    }
-  });
+  useEffect(() => {
+    let canvas = canvasRef.current;
+    let drawingContext = canvas.getContext('2d');
+
+    drawingContext.beginPath();
+    drawingContext.fillStyle = '#f00';
+    drawingContext.fillRect(0, 0, xScale, yScale);
+    drawingContext.closePath();
+
+    districtsFeatures.forEach(d => {
+      const stateId = Math.floor(+d.id / 100);
+      const districtId = `d${d.id % 100}`;
+      let districtData;
+      if (data[stateId]?.data[context?.year][districtId]) {
+        districtData = data[stateId].data[context.year][districtId];
+
+        drawingContext.beginPath();
+        path(path(d));
+        drawingContext.fillStyle = districtData
+          ? colorize(showSumOfPolicies(districtData, context), domain)
+          : '#888';
+        drawingContext.fill();
+        drawingContext.closePath();
+      }
+    });
+  }, [canvasRef, context]);
+
+  // const districtShapes = districtsFeatures.map(d => {
+  // const stateId = Math.floor(+d.id / 100);
+  // const districtId = `d${d.id % 100}`;
+  // let districtData;
+  // if (data[stateId]?.data[context?.year][districtId]) {
+  //   districtData = data[stateId].data[context.year][districtId];
+  //     return (
+  //       <District
+  //         d={path(d)}
+  //         fill={
+  //           districtData
+  //             ? colorize(showSumOfPolicies(districtData, context), domain)
+  //             : '#888'
+  //         }
+  //         id={`district-${d.id}`}
+  //         key={`district-${d.id}`}
+  //       />
+  //     );
+  //   } else {
+  //     return null;
+  //   }
+  // });
 
   const states = feature(us, us.objects.states).features.map(d => {
     const stateInfo = data[+d.id];
@@ -102,7 +137,7 @@ const USMap = ({ us, districts, updateActiveState, scale, domain, data }) => {
   });
 
   return (
-    <>
+    <MapContainer>
       <svg width="100%" viewBox={`0 0 ${xScale} ${yScale}`}>
         <defs>
           <path id="land" d={path(feature(us, us.objects.land))} />
@@ -110,11 +145,18 @@ const USMap = ({ us, districts, updateActiveState, scale, domain, data }) => {
         <clipPath id="clip-land">
           <use xlinkHref="#land" />
         </clipPath>
-        <g clipPath="url(#clip-land)">{districtShapes}</g>
+        {/* <g clipPath="url(#clip-land)">{districtShapes}</g> */}
         <g>{states}</g>
       </svg>
+      <canvas
+        width={xScale}
+        height={yScale}
+        id="us-canvas"
+        ref={canvasRef}
+        style={{ width: '100%' }}
+      ></canvas>
       <HoverContainer id="usmap" aria-haspopup="true" />
-    </>
+    </MapContainer>
   );
 };
 
