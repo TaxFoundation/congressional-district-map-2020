@@ -20,8 +20,8 @@
     "start": "concurrently -c \"magenta,cyan\" --names \"Data,React\" \"npm run watch-data\" \"react-scripts start\"",
     "build": "npm run build-data && react-scripts build",
     "build-tf": "npm run build-data && REACT_APP_ENV=taxfoundation react-scripts build",
-    "build-data": "node ./src/reformatData.js",
-    "watch-data": "node ./src/reformatData.js --watch",
+    "build-data": "node ./src/formatData.js",
+    "watch-data": "node ./src/formatData.js --watch",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "eslint-check": "eslint --print-config .eslintrc.js | eslint-config-prettier-check"
@@ -34,6 +34,7 @@
     "eslint-config-react": "^1.1.7",
     "eslint-plugin-prettier": "^3.3.1",
     "eslint-plugin-react": "^7.22.0",
+    "fs-extra": "^9.1.0",
     "prettier": "^2.2.1"
   },
   "browserslist": {

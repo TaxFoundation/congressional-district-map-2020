@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
-import Button from './Button';
+
+import { MapContext } from '../context';
+import policies from '../data/policies.json';
 import Select from './Select';
-import { formatter } from '../helpers';
-import SocialButtons from './SocialButtons';
-import BUCKETS from '../data/buckets';
+import { formatter, showSumOfPolicies } from '../helpers';
 
 const StyledDistrictTable = styled.div`
   background-color: #fff;
@@ -23,17 +23,15 @@ const StyledDistrictTable = styled.div`
 const Table = styled.table`
   border-collapse: collapse;
   font-size: 0.8rem !important;
+  margin: 0;
   width: 100%;
 
-  tr:first-child > td {
-    font-size: 1.2rem !important;
-  }
-
-  tr > td {
+  td {
     background: #fff;
-    border-right: none;
-    border-bottom: 1px solid #ccc;
+    border: none;
+    border-top: 1px solid #ccc;
     font-family: 'Lato', sans-serif !important;
+    font-size: 14px;
     padding: 0.5rem 0;
 
     &:last-child {
@@ -41,8 +39,14 @@ const Table = styled.table`
     }
   }
 
-  tr:last-child > td {
+  tr:first-child > td {
     border: none;
+  }
+
+  tr:last-child > td {
+    border-top: 2px solid #aaa;
+    font-size: 16px;
+    font-weight: 700;
   }
 `;
 
@@ -60,99 +64,83 @@ const ValueCell = styled.td`
   text-align: right;
 `;
 
-const DistrictTable = props => {
-  let theData = { i: '', s: '', t: '' };
-  let bucketText = '';
-  let theDistrict =
-    Object.keys(props.data).length > 1 && props.activeDistrict === 0
-      ? 1
-      : props.activeDistrict;
-  if (props.data && props.activeBucket >= 0 && props.activeDistrict >= 0) {
-    theData = props.data[theDistrict][props.activeBucket];
-    bucketText = BUCKETS.find(b => +b.id === +props.activeBucket).value;
+const DistrictTable = ({
+  data,
+  activeDistrict,
+  updateActiveDistrict,
+  activeState,
+  updateActiveState,
+}) => {
+  const districtIds = Object.keys(data)
+    .map(d => d.match(/\d+/)[0])
+    .sort((a, b) => a - b);
 
-    return (
-      <StyledDistrictTable>
-        <div>
-          <BackToMap onClick={e => props.updateActiveState(0)}>
-            ← Back to US Map
-          </BackToMap>
-          {Object.keys(props.data).length > 1 ? (
-            <Select
-              name="district"
-              id="district"
-              value={props.activeDistrict}
-              onChange={e => props.updateActiveDistrict(e.target.value)}
-            >
-              {Object.keys(props.data).map(d => (
-                <option key={`district-opt-${d}`} value={+d}>
-                  {`District ${d}`}
-                </option>
-              ))}
-            </Select>
-          ) : props.activeState === 11 ? (
-            <h3 style={{ textAlign: 'center' }}>District of Columbia</h3>
-          ) : (
-            <h3 style={{ textAlign: 'center' }}>At-Large District</h3>
-          )}
-          {theData ? (
-            <Table>
-              <tbody>
-                <tr>
-                  <td>Avg. Tax Cut</td>
-                  <ValueCell color={theData.t >= 0 ? '#00aa22' : '#ef4438'}>
-                    {formatter(theData.t, '$')}
-                  </ValueCell>
-                </tr>
-                <tr>
-                  <td>Avg. Tax Cut as % of Income</td>
-                  <ValueCell color={theData.t >= 0 ? '#00aa22' : '#ef4438'}>
-                    {formatter(theData.t / theData.i, '%')}
-                  </ValueCell>
-                </tr>
-                <tr>
-                  <td>{`Avg. Income from ${bucketText}`}</td>
-                  <ValueCell>{formatter(theData.i, '$')}</ValueCell>
-                </tr>
-                {/* <tr>
-                  <td>Avg. State Taxes Deducted</td>
-                  <ValueCell>{formatter(theData.s, '$')}</ValueCell>
-                </tr> */}
-              </tbody>
-            </Table>
-          ) : null}
-        </div>
-        <p style={{ fontSize: '0.8rem' }}>
-          Not sure what district you live in?{' '}
-          <a
-            style={{ color: '#0094ff' }}
-            href="https://www.census.gov/mycd/"
-            target="_blank"
-            rel="noopener noreferrer"
+  const { context } = useContext(MapContext);
+
+  const districtTotals = showSumOfPolicies(data[`d${activeDistrict}`], context);
+
+  return (
+    <StyledDistrictTable>
+      <div>
+        <BackToMap onClick={() => updateActiveState(null)}>
+          ← Back to US Map
+        </BackToMap>
+        {districtIds.length > 1 ? (
+          <Select
+            name="district"
+            id="district"
+            value={activeDistrict}
+            onChange={e => updateActiveDistrict(e.target.value)}
           >
-            Find out here.
-          </a>
-        </p>
-        <div>
-          <p
-            style={{
-              marginBottom: '8px',
-              textAlign: 'center',
-            }}
-          >
-            Share with your friends!
-          </p>
-          <SocialButtons />
-        </div>
-        <Button
-          href="https://taxfoundation.org/2018-tax-reform-congressional-district-map-explainer/"
-          style={{ alignSelf: 'end' }}
+            {districtIds.map(d => (
+              <option key={`district-opt-${d}`} value={d}>
+                {`District ${d}`}
+              </option>
+            ))}
+          </Select>
+        ) : activeState === 11 ? (
+          <h3 style={{ textAlign: 'center' }}>District of Columbia</h3>
+        ) : (
+          <h3 style={{ textAlign: 'center' }}>At-Large District</h3>
+        )}
+        <Table>
+          <tbody>
+            {policies.map(policy => (
+              <tr>
+                <td>{policy.abbr}</td>
+                <ValueCell
+                  color={
+                    data[`d${activeDistrict}`][policy.shorthand] >= 0
+                      ? '#ef4438'
+                      : '#00aa22'
+                  }
+                >
+                  {formatter(data[`d${activeDistrict}`][policy.shorthand], '$')}
+                </ValueCell>
+              </tr>
+            ))}
+            <tr>
+              <td>Avgerage Tax {districtTotals >= 0 ? 'Increase' : 'Cut'}</td>
+              <ValueCell color={districtTotals >= 0 ? '#ef4438' : '#00aa22'}>
+                {formatter(Math.abs(districtTotals), '$')}
+              </ValueCell>
+            </tr>
+          </tbody>
+        </Table>
+      </div>
+      <p style={{ fontSize: '0.8rem' }}>
+        Not sure what district you live in?{' '}
+        <a
+          style={{ color: '#0094ff' }}
+          href="https://www.census.gov/mycd/"
+          target="_blank"
+          rel="noopener noreferrer"
         >
-          Full Methodology
-        </Button>
-      </StyledDistrictTable>
-    );
-  }
+          Find out here.
+        </a>
+      </p>
+    </StyledDistrictTable>
+  );
 };
 
 export default DistrictTable;

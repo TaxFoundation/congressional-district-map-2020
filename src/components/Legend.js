@@ -1,6 +1,6 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import { colorize } from '../helpers';
+import { colorize, formatter } from '../helpers';
 
 const LegendContainer = styled.div`
   display: grid;
@@ -11,8 +11,9 @@ const LegendContainer = styled.div`
   margin-bottom: 1rem;
 `;
 
-const LegendText = styled.p`
+const StyledLegendText = styled.p`
   font-size: 14px;
+  line-height: 1.2;
   margin: 0;
   padding: 0 15px;
   text-align: ${props => props.textAlign};
@@ -23,31 +24,32 @@ const LegendStop = styled.div`
   height: 100%;
 `;
 
-const Legend = props => (
-  <LegendContainer steps={props.steps}>
-    <LegendText textAlign="right">
-      {props.domain[0] < 0 ? (
-        <Fragment>
-          `${100 * Math.abs(props.domain[0])}% or More`<br />Increase
-        </Fragment>
-      ) : props.domain[0] === 0 ? (
-        <Fragment>
-          No<br />Change
-        </Fragment>
-      ) : (
-        <Fragment>
-          `${100 * Math.abs(props.domain[0])}%`<br />Cut
-        </Fragment>
-      )}
-    </LegendText>
-    {[...Array(props.steps).keys()].map(k => (
-      <LegendStop key={`legend-${k}`} steps={props.steps} step={k} />
-    ))}
-    <LegendText textAlign="left">
-      {`${100 * Math.abs(props.domain[1])}% or More`}
-      <br />Cut
-    </LegendText>
-  </LegendContainer>
-);
+const LegendText = ({ align, value }) => {
+  return value === 0 ? (
+    <StyledLegendText textAlign={align}>
+      No
+      <br />
+      Change
+    </StyledLegendText>
+  ) : (
+    <StyledLegendText textAlign={align}>
+      {formatter(Math.abs(value), '$')} or More
+      <br />
+      Tax {value < 0 ? 'Cut' : 'Increase'}
+    </StyledLegendText>
+  );
+};
+
+const Legend = ({ domain, steps }) => {
+  return (
+    <LegendContainer steps={steps}>
+      <LegendText align="right" value={domain[0]} />
+      {[...Array(steps).keys()].map(k => (
+        <LegendStop key={`legend-${k}`} steps={steps} step={k} />
+      ))}
+      <LegendText align="left" value={domain[1]} />
+    </LegendContainer>
+  );
+};
 
 export default Legend;

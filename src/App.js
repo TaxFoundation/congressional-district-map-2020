@@ -1,14 +1,13 @@
-import React, { Component, Fragment } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
-import Navigation from './components/Navigation';
+
+import { MapContext, StateProvider } from './context';
+import { fetchData, leadingZeroFIPS, useQueryParams } from './helpers';
 import USMap from './components/USMap';
 import StateMap from './components/StateMap';
-import us from './data/us.json';
-import districts from './data/us-congress-113.json';
-import data from './data/data.json';
+
+import Navigation from './components/navigation/Navigation';
 import Legend from './components/Legend';
-import Banner from './components/Banner';
-import SocialButtons from './components/SocialButtons';
 
 const AppWrapper = styled.div`
   color: #333;
@@ -21,126 +20,82 @@ const AppWrapper = styled.div`
   }
 `;
 
-class App extends Component {
-  constructor() {
-    super();
+const App = () => {
+  const [us, setUs] = useState(null);
+  const [stateMap, setStateMap] = useState(null);
+  const [districts, setDistricts] = useState(null);
+  const [data, setData] = useState(null);
+  const [activeState, setActiveState] = useQueryParams('state', 0);
+  const { context } = useContext(MapContext);
 
-    this.state = {
-      activeState: 0,
-      stateData: null,
-      activeBucket: 3,
-      domain: [0, 0.06],
-    };
+  const domain = [-1000, 1000];
+  const scale = 780;
 
-    this.scale = 780;
-    this.xScale = 600;
-    this.yScale = 400;
-    this.xScalar = this.xScale / 600;
-    this.yScalar = this.yScale / 400;
+  useEffect(async () => {
+    const usData = await fetchData('us/us');
+    const districtsData = await fetchData('us/districts');
+    const theData = await fetchData('tax/data');
 
-    this.updateActiveState = this.updateActiveState.bind(this);
-    this.updateBucket = this.updateBucket.bind(this);
-    this.updateChildren = this.updateChildren.bind(this);
-  }
+    setUs(usData);
+    setDistricts(districtsData);
+    setData(theData);
+  }, []);
 
-  updateActiveState(id) {
-    const theId = +id;
-
-    if (theId > 0) {
-      this.getStateData(theId)
-        .then(data => {
-          this.setState({ activeState: theId, stateData: data });
-        })
-        .catch(err => console.log(err));
+  useEffect(async () => {
+    if (activeState > 0) {
+      const stateMapData = await fetchData(
+        `states/${leadingZeroFIPS(activeState)}`,
+      );
+      setStateMap(stateMapData);
     } else {
-      this.setState({ stateData: null, activeState: 0 });
+      setStateMap(null);
     }
-  }
+  }, [activeState]);
 
-  updateBucket(activeBucket) {
-    this.setState({ activeBucket });
-  }
+  console.log(stateMap);
 
-  updateChildren(activeChildren) {
-    this.setState({ activeChildren });
-  }
-
-  async getStateData(stateId) {
-    const tfUrl =
-      'https://static.taxfoundation.org/congressional-districts-2018/';
-    const response = await fetch(
-      `${process.env.REACT_APP_ENV === 'taxfoundation' ? tfUrl : ''}states/${
-        stateId < 10 ? `0${stateId}` : stateId
-      }.json`
-    );
-    const data = await response.json();
-    return data;
-  }
-
-  render() {
-    return (
+  return (
+    us &&
+    districts &&
+    data && (
       <AppWrapper className="App">
-        {process.env.REACT_APP_ENV === 'taxfoundation' ? null : (
-          <Fragment>
-            <Banner />
-            <h1 style={{ textAlign: 'center' }}>Mapping 2018 Tax Reform</h1>
-            <h2 style={{ textAlign: 'center' }}>
-              The Impact of the Tax Cuts and Jobs Act by Congressional District
-            </h2>
-            <SocialButtons
-              size="30px"
-              message={`How will the Tax Cuts and Jobs Act impact incomes in your congressional district? Check out this new interactive map. ${
-                window.location.href
-              }`}
-              hashtags="TaxReform"
-              emailSubject="Mapping 2018 Tax Reform"
-              emailBody={`The Tax Foundation's 2018 tax reform map shows you how the Tax Cuts and Jobs Act will impact average incomes in congressional districts around the country. You can see the impact on your district here: ${
-                window.location.href
-              }`}
-            />
-          </Fragment>
-        )}
         <Navigation
-          values={this.state}
-          updateBucket={this.updateBucket}
-          updateChildren={this.updateChildren}
-          updateActiveState={this.updateActiveState}
+          years={Object.keys(data['1'].data).map(
+            yearString => yearString.match(/\d+/)[0],
+          )}
+          activeState={activeState}
+          setActiveState={setActiveState}
         />
-        <Legend domain={this.state.domain} steps={19} />
-        {this.state.stateData ? (
-          <StateMap
-            activeState={this.state.activeState}
-            stateData={this.state.stateData}
-            data={data[this.state.activeState]}
-            domain={this.state.domain}
-            activeBucket={this.state.activeBucket}
-            activeChildren={this.state.activeChildren}
-            updateActiveState={this.updateActiveState}
-            scale={{
-              scale: this.scale,
-              xScale: this.xScale,
-              yScale: this.yScale,
-            }}
-          />
+        <Legend domain={domain} steps={19} />
+
+        {activeState ? (
+          stateMap?.objects[leadingZeroFIPS(activeState)] ? (
+            <StateMap
+              id={activeState}
+              stateMapData={stateMap}
+              data={data[activeState].data[context.year]}
+              updateActiveState={setActiveState}
+              domain={domain}
+              scale={scale}
+            />
+          ) : null
         ) : (
           <USMap
             us={us}
             districts={districts}
             data={data}
-            domain={this.state.domain}
-            activeBucket={this.state.activeBucket}
-            activeChildren={this.state.activeChildren}
-            updateActiveState={this.updateActiveState}
-            scale={{
-              scale: this.scale,
-              xScale: this.xScale,
-              yScale: this.yScale,
-            }}
+            updateActiveState={setActiveState}
+            domain={domain}
+            scale={scale}
           />
         )}
       </AppWrapper>
-    );
-  }
-}
+    )
+  );
+};
 
-export default App;
+export default () => (
+  <StateProvider>
+    <App />
+  </StateProvider>
+);
