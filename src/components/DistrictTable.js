@@ -3,10 +3,8 @@ import styled from 'styled-components';
 
 import { MapContext } from '../context';
 import policies from '../data/policies.json';
-import Button from './Button';
 import Select from './Select';
 import { formatter, showSumOfPolicies } from '../helpers';
-import SocialButtons from './SocialButtons';
 
 const StyledDistrictTable = styled.div`
   background-color: #fff;
