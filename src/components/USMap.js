@@ -20,7 +20,7 @@ const State = styled.path`
   cursor: pointer;
   fill: transparent;
   stroke: #fff;
-  stroke-width: 1;
+  stroke-width: 1.5;
   stroke-linejoin: bevel;
 
   &:hover {
@@ -64,6 +64,7 @@ const USMap = ({ us, districts, updateActiveState, scale, domain, data }) => {
     let drawingContext = canvas.getContext('2d');
     path.context(drawingContext);
     drawingContext.clip(path(feature(us, us.objects.land)));
+    drawingContext.imageSmoothingEnabled = false;
 
     districtsFeatures.forEach(d => {
       const stateId = Math.floor(+d.id / 100);
