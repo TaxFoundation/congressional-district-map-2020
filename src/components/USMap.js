@@ -62,11 +62,8 @@ const USMap = ({ us, districts, updateActiveState, scale, domain, data }) => {
   useEffect(() => {
     let canvas = canvasRef.current;
     let drawingContext = canvas.getContext('2d');
-
-    drawingContext.beginPath();
-    drawingContext.fillStyle = '#f00';
-    drawingContext.fillRect(0, 0, xScale, yScale);
-    drawingContext.closePath();
+    path.context(drawingContext);
+    drawingContext.clip(path(feature(us, us.objects.land)));
 
     districtsFeatures.forEach(d => {
       const stateId = Math.floor(+d.id / 100);
