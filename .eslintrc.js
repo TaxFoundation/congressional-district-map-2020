@@ -3,7 +3,7 @@ module.exports = {
     browser: true,
     es6: true,
   },
-  extends: ['prettier', 'prettier/react'],
+  extends: ['prettier'],
   parser: 'babel-eslint',
   parserOptions: {
     ecmaFeatures: {
@@ -17,20 +17,5 @@ module.exports = {
     'linebreak-style': ['error', 'unix'],
     'react/jsx-uses-vars': 2,
     'react/jsx-uses-react': 2,
-    'prettier/prettier': [
-      'warn',
-      {
-        printWidth: 80,
-        tabWidth: 2,
-        useTabs: false,
-        semi: true,
-        singleQuote: true,
-        quoteProps: 'as-needed',
-        trailingComma: 'all',
-        bracketSpacing: true,
-        arrowParens: 'avoid',
-        endOfLine: 'lf',
-      },
-    ],
   },
 };
