@@ -79,6 +79,10 @@ const StateMap = ({
     // drawingContext.clip(path(feature(us, us.objects.land)));
     drawingContext.imageSmoothingEnabled = false;
 
+    // reset canvas to blank to prevent bleeding through of old border colors
+    drawingContext.fillStyle = 'white';
+    drawingContext.fillRect(0, 0, xScale, yScale);
+
     districtsFeatures.features.forEach(d => {
       const districtId = `d${+d.properties.CD114FP % 100}`;
       const districtData = data[districtId];

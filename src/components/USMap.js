@@ -59,6 +59,10 @@ const USMap = ({ us, districts, updateActiveState, scale, domain, data }) => {
     drawingContext.clip(path(feature(us, us.objects.land)));
     drawingContext.imageSmoothingEnabled = false;
 
+    // reset canvas to blank to prevent bleeding through of old border colors
+    drawingContext.fillStyle = 'white';
+    drawingContext.fillRect(0, 0, xScale, yScale);
+
     districtsFeatures.forEach(d => {
       const stateId = Math.floor(+d.id / 100);
       const districtId = `d${d.id % 100}`;
