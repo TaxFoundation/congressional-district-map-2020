@@ -22,7 +22,7 @@ const State = styled.path`
   }
 `;
 
-const hoverText = (name, info, jobs) => `
+const hoverText = (name, info) => `
   <p style="text-align:center; border-bottom: 1px solid #ddd; padding-bottom: 9px; margin-bottom: 9px;"><strong>${name}</strong></p>
   <table><tbody>
   <tr style="background:transparent">
