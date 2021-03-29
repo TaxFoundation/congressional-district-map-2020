@@ -106,7 +106,7 @@ const DistrictTable = ({
         <Table>
           <tbody>
             {policies.map(policy => (
-              <tr>
+              <tr key={`policy-${policy.shorthand}`}>
                 <td>{policy.abbr}</td>
                 <ValueCell
                   color={

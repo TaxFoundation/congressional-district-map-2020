@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useRef } from 'react';
 import styled from 'styled-components';
 import { geoAlbersUsa, geoMercator, geoPath } from 'd3-geo';
 import { feature } from 'topojson-client';
@@ -10,6 +10,7 @@ import {
   leadingZeroFIPS,
   showSumOfPolicies,
 } from '../helpers';
+import MapContainer from './MapContainer';
 import DistrictTable from './DistrictTable';
 import HoverContainer from './HoverContainer';
 
@@ -26,6 +27,7 @@ const Container = styled.div`
 
 const District = styled.path`
   cursor: pointer;
+  fill: transparent;
   stroke: #fff;
   stroke-width: ${props => (props.active ? 1.5 : 0.5)};
   stroke-linejoin: bevel;
@@ -48,61 +50,75 @@ const StateMap = ({
   domain,
 }) => {
   const { context } = useContext(MapContext);
+  const canvasRef = useRef();
   const [activeDistrict, setActiveDistrict] = useState(
     Object.keys(data).length > 1 ? 1 : 0,
   );
   const xScale = 400;
   const yScale = 400;
 
-  let districtsFeatures,
-    path,
-    districtShapes = null;
+  const districtsFeatures = feature(
+    stateMapData,
+    stateMapData.objects[leadingZeroFIPS(id)],
+  );
 
-  if (stateMapData) {
-    districtsFeatures = feature(
-      stateMapData,
-      stateMapData.objects[leadingZeroFIPS(id)],
+  let path = geoPath().projection(
+    geoMercator().fitSize([xScale, yScale], districtsFeatures),
+  );
+
+  if (id === 2 || id === 15) {
+    path = geoPath().projection(
+      geoAlbersUsa().fitSize([xScale, yScale], districtsFeatures),
     );
-    if (id === 2 || id === 15) {
-      path = geoPath().projection(
-        geoAlbersUsa().fitSize([xScale, yScale], districtsFeatures),
-      );
-    } else {
-      path = geoPath().projection(
-        geoMercator().fitSize([xScale, yScale], districtsFeatures),
-      );
-    }
-
-    districtShapes = districtsFeatures.features.map(d => {
-      const districtId = +d.properties.CD114FP;
-      const districtData = data[`d${districtId}`];
-      if (districtData) {
-        return (
-          <District
-            d={path(d)}
-            fill={
-              districtData
-                ? colorize(showSumOfPolicies(districtData, context), domain)
-                : '#888'
-            }
-            id={`district-detail-${districtId}`}
-            key={`district-detail-${districtId}`}
-            active={districtId === activeDistrict}
-            onMouseOver={() =>
-              districtId > 0 ? setActiveDistrict(districtId) : null
-            }
-          />
-        );
-      } else {
-        return null;
-      }
-    });
   }
 
+  useEffect(() => {
+    let canvas = canvasRef.current;
+    let drawingContext = canvas.getContext('2d');
+    path.context(drawingContext);
+    // drawingContext.clip(path(feature(us, us.objects.land)));
+    drawingContext.imageSmoothingEnabled = false;
+
+    districtsFeatures.features.forEach(d => {
+      const districtId = `d${+d.properties.CD114FP % 100}`;
+      const districtData = data[districtId];
+      console.log(data);
+      if (data[districtId]) {
+        drawingContext.beginPath();
+        path(path(d));
+        drawingContext.fillStyle = districtData
+          ? colorize(showSumOfPolicies(districtData, context), domain)
+          : '#888';
+        drawingContext.fill();
+        drawingContext.closePath();
+      }
+    });
+  }, [path, canvasRef, context]);
+
+  const districtShapes = districtsFeatures.features.map(d => {
+    const districtId = +d.properties.CD114FP;
+    const districtData = data[`d${districtId}`];
+    if (districtData) {
+      return (
+        <District
+          d={path(d)}
+          id={`district-detail-${districtId}`}
+          key={`district-detail-${districtId}`}
+          active={districtId === activeDistrict}
+          onMouseOver={() =>
+            districtId > 0 ? setActiveDistrict(districtId) : null
+          }
+        />
+      );
+    } else {
+      return null;
+    }
+  });
+
   return (
-    stateMapData && (
-      <>
-        <Container>
+    <>
+      <Container>
+        <MapContainer>
           <svg width="100%" viewBox={`0 0 ${xScale} ${yScale}`}>
             <BG
               data-tip
@@ -113,17 +129,24 @@ const StateMap = ({
             />
             {districtShapes}
           </svg>
-          <DistrictTable
-            data={data}
-            activeDistrict={activeDistrict}
-            updateActiveDistrict={setActiveDistrict}
-            activeState={id}
-            updateActiveState={updateActiveState}
-          />
-        </Container>
-        <HoverContainer id="go-back">Click to return to US map.</HoverContainer>
-      </>
-    )
+          <canvas
+            width={xScale}
+            height={yScale}
+            id="us-canvas"
+            ref={canvasRef}
+            style={{ width: '100%' }}
+          ></canvas>
+        </MapContainer>
+        <DistrictTable
+          data={data}
+          activeDistrict={activeDistrict}
+          updateActiveDistrict={setActiveDistrict}
+          activeState={id}
+          updateActiveState={updateActiveState}
+        />
+      </Container>
+      <HoverContainer id="go-back">Click to return to US map.</HoverContainer>
+    </>
   );
 };
 

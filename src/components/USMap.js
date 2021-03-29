@@ -6,15 +6,8 @@ import { feature } from 'topojson-client';
 
 import { MapContext } from '../context';
 import { showSumOfPolicies, colorize, formatter } from '../helpers';
+import MapContainer from './MapContainer';
 import HoverContainer from './HoverContainer';
-
-const MapContainer = styled.div`
-  position: relative;
-
-  svg {
-    position: absolute;
-  }
-`;
 
 const State = styled.path`
   cursor: pointer;
@@ -83,29 +76,6 @@ const USMap = ({ us, districts, updateActiveState, scale, domain, data }) => {
       }
     });
   }, [canvasRef, context]);
-
-  // const districtShapes = districtsFeatures.map(d => {
-  // const stateId = Math.floor(+d.id / 100);
-  // const districtId = `d${d.id % 100}`;
-  // let districtData;
-  // if (data[stateId]?.data[context?.year][districtId]) {
-  //   districtData = data[stateId].data[context.year][districtId];
-  //     return (
-  //       <District
-  //         d={path(d)}
-  //         fill={
-  //           districtData
-  //             ? colorize(showSumOfPolicies(districtData, context), domain)
-  //             : '#888'
-  //         }
-  //         id={`district-${d.id}`}
-  //         key={`district-${d.id}`}
-  //       />
-  //     );
-  //   } else {
-  //     return null;
-  //   }
-  // });
 
   const states = feature(us, us.objects.states).features.map(d => {
     const stateInfo = data[+d.id];

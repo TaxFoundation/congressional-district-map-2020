@@ -52,8 +52,6 @@ const App = () => {
     }
   }, [activeState]);
 
-  console.log(stateMap);
-
   return (
     us &&
     districts &&
