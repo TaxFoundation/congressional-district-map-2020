@@ -43,7 +43,7 @@ const StateSelect = ({ activeState, setActiveState, area }) => {
       <SelectContainer>
         <Select
           id="state-select"
-          onChange={e => setActiveState(e.target.value)}
+          onChange={e => setActiveState(+e.target.value)}
           value={activeState}
         >
           <option value="0">United States</option>

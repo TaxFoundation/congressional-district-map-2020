@@ -31,7 +31,7 @@ const Table = styled.table`
     border: none;
     border-top: 1px solid #ccc;
     font-family: 'Lato', sans-serif !important;
-    font-size: 14px;
+    font-size: 12px;
     padding: 0.5rem 0;
 
     &:last-child {
@@ -106,7 +106,7 @@ const DistrictTable = ({
         <Table>
           <tbody>
             {policies.map(policy => (
-              <tr>
+              <tr key={`policy-${policy.shorthand}`}>
                 <td>{policy.abbr}</td>
                 <ValueCell
                   color={
