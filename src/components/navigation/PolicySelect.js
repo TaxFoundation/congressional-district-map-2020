@@ -11,7 +11,15 @@ const Container = styled.div`
   justify-items: center;
 `;
 
-const SelectExpand = styled.button`
+const HR = styled.hr`
+  background-color: #ccc;
+  border: 0;
+  color: #ccc;
+  height: 1px;
+  margin: 1rem 0;
+`;
+
+const Button = styled.button`
   background-color: #0094ff;
   border: 1px solid #0094ff;
   border-radius: 4px;
@@ -21,11 +29,24 @@ const SelectExpand = styled.button`
 `;
 
 const PoliciesContainer = styled.div`
-  display: ${({ expanded }) => (expanded ? 'block' : 'none')};
+  display: ${({ expanded }) => (expanded ? 'grid' : 'none')};
   font-size: 14px;
+  grid-template: repeat(3, auto) / 1fr;
+`;
 
+const PoliciesList = styled.div`
   @media screen and (min-width: 500px) {
     columns: 2;
+  }
+`;
+
+const PoliciesToggles = styled.div`
+  display: grid;
+  grid-gap: 1rem;
+  grid-template: repeat(2, auto) / 1fr;
+
+  @media screen and (min-width: 500px) {
+    grid-template: auto / repeat(2, 1fr);
   }
 `;
 
@@ -41,23 +62,40 @@ const PolicySelect = ({ area }) => {
 
   return (
     <Container area={area}>
-      <SelectExpand onClick={() => setExpanded(!expanded)}>
-        Select Policies
-      </SelectExpand>
+      <Button onClick={() => setExpanded(!expanded)}>
+        {`${expanded ? 'Hide' : 'Show'} Individual Policies`}
+      </Button>
       <PoliciesContainer expanded={expanded}>
-        {policies.map(policy => {
-          return (
-            <Policy key={policy.id}>
-              <input
-                id={policy.id}
-                type="checkbox"
-                checked={context[policy.id]}
-                onChange={() => updateContext({ id: `TOGGLE_${policy.id}` })}
-              />
-              <label htmlFor={policy.id}>{policy.name}</label>
-            </Policy>
-          );
-        })}
+        <HR />
+        <PoliciesList>
+          {policies.map(policy => {
+            return (
+              <Policy key={policy.id}>
+                <input
+                  id={policy.id}
+                  type="checkbox"
+                  checked={context[policy.id]}
+                  onChange={() => updateContext({ id: `TOGGLE_${policy.id}` })}
+                />
+                <label htmlFor={policy.id}>{policy.name}</label>
+              </Policy>
+            );
+          })}
+        </PoliciesList>
+        <PoliciesToggles>
+          <Button
+            id="toggle-policies"
+            onClick={() => updateContext({ id: `TOGGLE_ALL_ON` })}
+          >
+            Select All Policies
+          </Button>
+          <Button
+            id="toggle-policies"
+            onClick={() => updateContext({ id: `TOGGLE_ALL_OFF` })}
+          >
+            Select No Policies
+          </Button>
+        </PoliciesToggles>
       </PoliciesContainer>
     </Container>
   );

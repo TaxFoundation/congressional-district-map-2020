@@ -1,5 +1,7 @@
 import { createContext, useReducer } from 'react';
 
+import policies from './data/policies.json';
+
 const initialState = {
   year: 'y2021',
   PAYROLL: true,
@@ -19,6 +21,10 @@ const mapReducer = (state, action) => {
   switch (action.id) {
     case 'UPDATE_YEAR':
       return { ...state, year: action.value };
+    case 'TOGGLE_ALL_OFF':
+      return toggleAll(state, false);
+    case 'TOGGLE_ALL_ON':
+      return toggleAll(state, true);
     case 'TOGGLE_PAYROLL':
       return { ...state, PAYROLL: !state.PAYROLL };
     case 'TOGGLE_MARGINAL_RATE':
@@ -42,6 +48,12 @@ const mapReducer = (state, action) => {
       return { ...state, HOMEBUYER_CREDIT: !state.HOMEBUYER_CREDIT };
   }
 };
+
+function toggleAll(state, toggle) {
+  let changed = {};
+  policies.forEach(policy => (changed[policy.id] = toggle));
+  return { ...state, ...changed };
+}
 
 export const StateProvider = ({ children }) => {
   const [context, updateContext] = useReducer(mapReducer, initialState);
