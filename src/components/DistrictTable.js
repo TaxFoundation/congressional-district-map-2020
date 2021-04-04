@@ -39,6 +39,12 @@ const Table = styled.table`
     }
   }
 
+  tr {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    margin: 0;
+  }
+
   tr:first-child > td {
     border: none;
   }
