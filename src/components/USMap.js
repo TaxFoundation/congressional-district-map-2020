@@ -31,13 +31,6 @@ const hoverText = (name, info) => `
   </tr>
   </tbody></table>`;
 
-const District = styled.path`
-  stroke: #fff;
-  stroke-width: 0.5;
-  stroke-linejoin: bevel;
-  transition: fill 0.2s ease-in-out;
-`;
-
 const USMap = ({ us, districts, updateActiveState, scale, domain, data }) => {
   const { context } = useContext(MapContext);
   const canvasRef = useRef();
