@@ -8,14 +8,14 @@
   {
     "id": "CAP_GAINS_AT_DEATH_PER_FILER",
     "shorthand": "cg",
-    "name": "Constructive Realization of Unrealized Capital Gains at Death Over $1 Million",
-    "abbr": "Constructive Realization of Unrealized Capital Gains at Death Over $1 Million"
+    "name": "Tax Unrealized Capital Gains at Death Over $1 Million and Impose a 39.6 Percent Tax Rate on Capital Gains on Income Earned over $1 Million",
+    "abbr": "Tax Unrealized Capital Gains at Death Over $1 Million and Impose a 39.6 Percent Tax Rate on Capital Gains on Income Earned over $1 Million"
   },
   {
     "id": "NIT_PER_FILER",
     "shorthand": "nit",
-    "name": "Impose Net Investment Income Tax on Active Passthrough Income",
-    "abbr": "Impose Net Investment Income Tax on Active Passthrough Income"
+    "name": "Impose Net Investment Income Tax on Active Passthrough Income ",
+    "abbr": "Impose Net Investment Income Tax on Active Passthrough Income "
   },
   {
     "id": "PASSTHROUGH_LIMIT_PER_FILER",
@@ -38,25 +38,25 @@
   {
     "id": "ADDITIONAL_CTC_PER_FILER",
     "shorthand": "ctc",
-    "name": "Make the Child Tax Credit (CTC) Fully Refundable on a Permanent Basis and Extend Expanded CTC Through 2025",
-    "abbr": "Make the Child Tax Credit (CTC) Fully Refundable on a Permanent Basis and Extend Expanded CTC Through 2025"
+    "name": "Permanent Full Refundability of Child Tax Credit (CTC) and Extend Expanded CTC Through 2025",
+    "abbr": "Permanent Full Refundability of Child Tax Credit (CTC) and Extend Expanded CTC Through 2025"
   },
   {
     "id": "EITC_PER_FILER",
     "shorthand": "eitc",
-    "name": "Make Earned Income Tax Credit Expansion in the American Rescue Plan Permanent",
-    "abbr": "Make Earned Income Tax Credit Expansion in the American Rescue Plan Permanent"
+    "name": "Permanent Expansion of Earned Income Tax Credit (EITC)",
+    "abbr": "Permanent Expansion of Earned Income Tax Credit (EITC)"
   },
   {
     "id": "CDCTC_PER_FILER",
     "shorthand": "cdctc",
-    "name": "Make the Child and Dependent Care Tax Credit (CDCTC) Expansion in the American Rescue Plan Permanent",
-    "abbr": "Make the Child and Dependent Care Tax Credit (CDCTC) Expansion in the American Rescue Plan Permanent"
+    "name": "Permanent Expansion of Child and Dependent Care Tax Credit (CDCTC)",
+    "abbr": "Permanent Expansion of Child and Dependent Care Tax Credit (CDCTC)"
   },
   {
     "id": "PREM_TAX_CREDIT_PER_FILER",
     "shorthand": "ptc",
-    "name": "Make the Premium Tax Credit Expansion in the American Rescue Plan Permanent",
-    "abbr": "Make the Premium Tax Credit Expansion in the American Rescue Plan Permanent"
+    "name": "Permanent Expansion of Premium Tax Credits",
+    "abbr": "Permanent Expansion of Premium Tax Credits"
   }
 ]

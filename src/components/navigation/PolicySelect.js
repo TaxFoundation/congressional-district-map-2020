@@ -58,6 +58,7 @@ const PoliciesToggles = styled.div`
 `;
 
 const Policy = styled.div`
+  align-content: center;
   display: grid;
   grid-gap: 0.5rem;
   grid-template-columns: auto 1fr;
