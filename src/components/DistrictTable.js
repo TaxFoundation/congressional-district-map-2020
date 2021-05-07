@@ -88,7 +88,7 @@ const DistrictTable = ({
   return (
     <StyledDistrictTable>
       <div>
-        <BackToMap onClick={() => updateActiveState(null)}>
+        <BackToMap onClick={() => updateActiveState(0)}>
           ← Back to US Map
         </BackToMap>
         {districtIds.length > 1 ? (

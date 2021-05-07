@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 
 import { MapContext, StateProvider } from './context';
-import { fetchData, leadingZeroFIPS, useQueryParams } from './helpers';
+import { fetchData, leadingZeroFIPS } from './helpers';
 import USMap from './components/USMap';
 import StateMap from './components/StateMap';
 
@@ -25,7 +25,7 @@ const App = () => {
   const [stateMap, setStateMap] = useState(null);
   const [districts, setDistricts] = useState(null);
   const [data, setData] = useState(null);
-  const [activeState, setActiveState] = useQueryParams('state', 0);
+  const [activeState, setActiveState] = useState(0);
   const { context } = useContext(MapContext);
 
   const domain = [-1000, 1000];
