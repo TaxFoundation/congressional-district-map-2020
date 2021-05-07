@@ -1,5 +1,18 @@
 # Congressional District Interactive Mapping Tool
 
+## Embed
+
+Include this tag in the taxfoundation.org post:
+
+`<div id="biden-plan-map-2021"></div>`
+
+Include these scripts on the taxfoundation.org post page:
+
+    https://biden-plan-map-2021.netlify.app/pym.js
+    https://biden-plan-map-2021.netlify.app/pymSetup.js
+
+
+
 ## Data Sources
 
 * [Cartographic Boundary Shapefiles - Congressional Districts](https://www.census.gov/geo/maps-data/data/cbf/cbf_cds.html)
