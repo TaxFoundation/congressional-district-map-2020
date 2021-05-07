@@ -29,7 +29,7 @@ const App = () => {
   const { context } = useContext(MapContext);
 
   const domain = [-1000, 1000];
-  const scale = 780;
+  const scale = 1560;
 
   useEffect(async () => {
     const usData = await fetchData('us/us');

@@ -41,8 +41,8 @@ const District = styled.path`
 const USMap = ({ us, districts, updateActiveState, scale, domain, data }) => {
   const { context } = useContext(MapContext);
   const canvasRef = useRef();
-  const xScale = 600;
-  const yScale = 400;
+  const xScale = 1200;
+  const yScale = 800;
 
   const path = geoPath().projection(
     geoAlbersUsa()
