@@ -25,27 +25,8 @@ const mapReducer = (state, action) => {
       return toggleAll(state, false);
     case 'TOGGLE_ALL_ON':
       return toggleAll(state, true);
-    case 'TOGGLE_PAYROLL':
-      return { ...state, PAYROLL: !state.PAYROLL };
-    case 'TOGGLE_MARGINAL_RATE':
-      return { ...state, MARGINAL_RATE: !state.MARGINAL_RATE };
-    case 'TOGGLE_PEASE_LIMIT':
-      return { ...state, PEASE_LIMIT: !state.PEASE_LIMIT };
-    case 'TOGGLE_CAPITAL_GAINS_AND_DIVIDENDS':
-      return {
-        ...state,
-        CAPITAL_GAINS_AND_DIVIDENDS: !state.CAPITAL_GAINS_AND_DIVIDENDS,
-      };
-    case 'TOGGLE_ITEMIZED_LIMIT':
-      return { ...state, ITEMIZED_LIMIT: !state.ITEMIZED_LIMIT };
-    case 'TOGGLE_BUSINESS_DEDUCTION':
-      return { ...state, BUSINESS_DEDUCTION: !state.BUSINESS_DEDUCTION };
-    case 'TOGGLE_CTC':
-      return { ...state, CTC: !state.CTC };
-    case 'TOGGLE_CDCTC':
-      return { ...state, CDCTC: !state.CDCTC };
-    case 'TOGGLE_HOMEBUYER_CREDIT':
-      return { ...state, HOMEBUYER_CREDIT: !state.HOMEBUYER_CREDIT };
+    case 'TOGGLE_PLAN':
+      return { ...state, [action.plan]: !state[action.plan] };
   }
 };
 

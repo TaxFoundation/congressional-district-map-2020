@@ -75,7 +75,9 @@ const PolicySelect = ({ area }) => {
                   id={policy.id}
                   type="checkbox"
                   checked={context[policy.id]}
-                  onChange={() => updateContext({ id: `TOGGLE_${policy.id}` })}
+                  onChange={() =>
+                    updateContext({ id: `TOGGLE_PLAN`, plan: policy.id })
+                  }
                 />
                 <label htmlFor={policy.id}>{policy.name}</label>
               </Policy>
