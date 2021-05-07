@@ -23,9 +23,11 @@ const Button = styled.button`
   background-color: #0094ff;
   border: 1px solid #0094ff;
   border-radius: 4px;
+  color: white;
   cursor: pointer;
   font-size: 1rem;
   font-family: 'Lato', sans-serif;
+  padding: 0.5rem 1rem;
 `;
 
 const PoliciesContainer = styled.div`
