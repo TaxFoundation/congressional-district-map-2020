@@ -3,7 +3,7 @@ import { createContext, useReducer } from 'react';
 import policies from './data/policies.json';
 
 const initialState = {
-  year: 'y2021',
+  year: 'y2022',
   PAYROLL: true,
   MARGINAL_RATE: true,
   PEASE_LIMIT: true,
@@ -14,6 +14,8 @@ const initialState = {
   CDCTC: true,
   HOMEBUYER_CREDIT: true,
 };
+
+policies.forEach(policy => (initialState[policy.id] = true));
 
 export const MapContext = createContext();
 
