@@ -37,8 +37,13 @@ const PoliciesContainer = styled.div`
 `;
 
 const PoliciesList = styled.div`
+  display: grid;
+  grid-gap: 0.5rem;
+  grid-template: auto / 1fr;
+  padding-bottom: 1rem;
+
   @media screen and (min-width: 500px) {
-    columns: 2;
+    grid-template: auto / repeat(2, 1fr);
   }
 `;
 

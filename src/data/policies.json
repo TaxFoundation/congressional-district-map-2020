@@ -3,60 +3,60 @@
     "id": "MARGINAL_RATE_PER_FILER",
     "shorthand": "mr",
     "name": "Raise Top Individual Income Tax Bracket to 39.6 Percent",
-    "abbr": "Raise Top Individual Income Tax Bracket to 39.6 Percent"
+    "abbr": "Top individual rate of 39.6%"
   },
   {
     "id": "CAP_GAINS_AT_DEATH_PER_FILER",
     "shorthand": "cg",
     "name": "Constructive Realization of Unrealized Capital Gains at Death Over $1 Million",
-    "abbr": "Constructive Realization of Unrealized Capital Gains at Death Over $1 Million"
+    "abbr": "Tax unrealized capital gains at death over $1 Million"
   },
   {
     "id": "NIT_PER_FILER",
     "shorthand": "nit",
     "name": "Impose Net Investment Income Tax on Active Passthrough Income",
-    "abbr": "Impose Net Investment Income Tax on Active Passthrough Income"
+    "abbr": "Net investment income tax on passthrough income"
   },
   {
     "id": "PASSTHROUGH_LIMIT_PER_FILER",
     "shorthand": "pl",
     "name": "Make the Active Passthrough Loss Limitation Permanent",
-    "abbr": "Make the Active Passthrough Loss Limitation Permanent"
+    "abbr": "Permanent active passthrough loss limitation"
   },
   {
     "id": "1031_LIMIT_PER_FILER",
     "shorthand": "l1031",
     "name": "Limit 1031 Exchanges to $500K in Gain",
-    "abbr": "Limit 1031 Exchanges to $500K in Gain"
+    "abbr": "Limit 1031 exchanges to $500K gains"
   },
   {
     "id": "CARRIED_INTEREST_PER_FILER",
     "shorthand": "ci",
     "name": "Tax Carried Interest as Ordinary Income",
-    "abbr": "Tax Carried Interest as Ordinary Income"
+    "abbr": "Tax carried interest as ordinary income"
   },
   {
     "id": "ADDITIONAL_CTC_PER_FILER",
     "shorthand": "ctc",
     "name": "Make the Child Tax Credit (CTC) Fully Refundable on a Permanent Basis and Extend Expanded CTC Through 2025",
-    "abbr": "Make the Child Tax Credit (CTC) Fully Refundable on a Permanent Basis and Extend Expanded CTC Through 2025"
+    "abbr": "Permanent fully refundable CTC, extend expanded CTC through 2025"
   },
   {
     "id": "EITC_PER_FILER",
     "shorthand": "eitc",
     "name": "Make Earned Income Tax Credit Expansion in the American Rescue Plan Permanent",
-    "abbr": "Make Earned Income Tax Credit Expansion in the American Rescue Plan Permanent"
+    "abbr": "Permanent EITC expansion"
   },
   {
     "id": "CDCTC_PER_FILER",
     "shorthand": "cdctc",
     "name": "Make the Child and Dependent Care Tax Credit (CDCTC) Expansion in the American Rescue Plan Permanent",
-    "abbr": "Make the Child and Dependent Care Tax Credit (CDCTC) Expansion in the American Rescue Plan Permanent"
+    "abbr": "Permanent CDCTC expansion"
   },
   {
     "id": "PREM_TAX_CREDIT_PER_FILER",
     "shorthand": "ptc",
     "name": "Make the Premium Tax Credit Expansion in the American Rescue Plan Permanent",
-    "abbr": "Make the Premium Tax Credit Expansion in the American Rescue Plan Permanent"
+    "abbr": "Permanent Premium Tax Credit expansion"
   }
 ]

@@ -19,10 +19,6 @@ const Container = styled.div`
   display: grid;
   grid-gap: 1rem;
   grid-template: repeat(2, auto) / auto;
-
-  @media (min-width: 640px) {
-    grid-template: auto / 65% 35%;
-  }
 `;
 
 const District = styled.path`
