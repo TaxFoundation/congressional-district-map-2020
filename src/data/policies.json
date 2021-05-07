@@ -1,56 +1,62 @@
 [
-    {
-       "id": "PAYROLL",
-       "shorthand": "p",
-       "name": "1. Apply a Social Security payroll tax of 12.4% to earnings above $400,000",
-       "abbr": "1. Payrol Tax"
-    },
-    {
-       "id": "MARGINAL_RATE",
-       "shorthand": "mr",
-       "name": "2. Raise the top ordinary income tax rate from 37% to 39.6%",
-       "abbr": "2. Marginal Rate"
-    },
-    {
-       "id": "PEASE_LIMIT",
-       "shorthand": "pl",
-       "name": "3. Reactivate the Pease limitation for income above $400,000",
-       "abbr": "3. Pease Limit"
-    },
-    {
-       "id": "CAPITAL_GAINS_AND_DIVIDENDS",
-       "shorthand": "cg",
-       "name": "4. Tax capital gains and dividends at 39.6 percent on income over $1 million and repeal step-up in basis",
-       "abbr": "4. Capital Gains & Dividends"
-    },
-    {
-       "id": "ITEMIZED_LIMIT",
-       "shorthand": "il",
-       "name": "5. Limit the tax benefit of itemized deductions at 28% of value for those earning over $400,000",
-       "abbr": "5. Itemized Limits"
-    },
-    {
-       "id": "BUSINESS_DEDUCTION",
-       "shorthand": "bd",
-       "name": "6. Phase out qualified business income deductions for income over $400,000",
-       "abbr": "6. Business Deduction"
-    },
-    {
-       "id": "CTC",
-       "shorthand": "ctc",
-       "name": "7. Expand the Child Tax Credit (CTC) to $3,000 maximum value, $600 bonus for children under 6, and make the CTC fully refundable with no phase-in thresholds",
-       "abbr": "7. Child Tax Credit"
-    },
-    {
-       "id": "CDCTC",
-       "shorthand": "cd",
-       "name": "8. Expand the Child and Dependent Care Tax Credit (CDCTC) to a maximum value of $8,000 and increase the refundability percentage to a maximum of 50 percent",
-       "abbr": "8. Child and Dependent Tax Credit"
-    },
-    {
-       "id": "HOMEBUYER_CREDIT",
-       "shorthand": "hc",
-       "name": "9. Provide a First-Time Homebuyer Credit up to $15,000 in value",
-       "abbr": "9. Homebuyer Credit"
-    }
- ]
+  {
+    "id": "MARGINAL_RATE",
+    "shorthand": "mr",
+    "name": "Raise Top Individual Income Tax Bracket to 39.6 Percent",
+    "abbr": "Raise Top Individual Income Tax Bracket to 39.6 Percent"
+  },
+  {
+    "id": "CAP_GAINS_AT_DEATH",
+    "shorthand": "cg",
+    "name": "Constructive Realization of Unrealized Capital Gains at Death Over $1 Million",
+    "abbr": "Constructive Realization of Unrealized Capital Gains at Death Over $1 Million"
+  },
+  {
+    "id": "NIT",
+    "shorthand": "nit",
+    "name": "Impose Net Investment Income Tax on Active Passthrough Income",
+    "abbr": "Impose Net Investment Income Tax on Active Passthrough Income"
+  },
+  {
+    "id": "PASSTHROUGH_LIMIT",
+    "shorthand": "pl",
+    "name": "Make the Active Passthrough Loss Limitation Permanent",
+    "abbr": "Make the Active Passthrough Loss Limitation Permanent"
+  },
+  {
+    "id": "1031_LIMIT",
+    "shorthand": "l1031",
+    "name": "Limit 1031 Exchanges to $500K in Gain",
+    "abbr": "Limit 1031 Exchanges to $500K in Gain"
+  },
+  {
+    "id": "CARRIED_INTEREST",
+    "shorthand": "ci",
+    "name": "Tax Carried Interest as Ordinary Income",
+    "abbr": "Tax Carried Interest as Ordinary Income"
+  },
+  {
+    "id": "ADDITIONAL_CTC",
+    "shorthand": "ctc",
+    "name": "Make the Child Tax Credit (CTC) Fully Refundable on a Permanent Basis and Extend Expanded CTC Through 2025",
+    "abbr": "Make the Child Tax Credit (CTC) Fully Refundable on a Permanent Basis and Extend Expanded CTC Through 2025"
+  },
+  {
+    "id": "EITC",
+    "shorthand": "eitc",
+    "name": "Make Earned Income Tax Credit Expansion in the American Rescue Plan Permanent",
+    "abbr": "Make Earned Income Tax Credit Expansion in the American Rescue Plan Permanent"
+  },
+  {
+    "id": "CDCTC",
+    "shorthand": "cdctc",
+    "name": "Make the Child and Dependent Care Tax Credit (CDCTC) Expansion in the American Rescue Plan Permanent",
+    "abbr": "Make the Child and Dependent Care Tax Credit (CDCTC) Expansion in the American Rescue Plan Permanent"
+  },
+  {
+    "id": "PREM_TAX_CREDIT",
+    "shorthand": "ptc",
+    "name": "Make the Premium Tax Credit Expansion in the American Rescue Plan Permanent",
+    "abbr": "Make the Premium Tax Credit Expansion in the American Rescue Plan Permanent"
+  }
+]
