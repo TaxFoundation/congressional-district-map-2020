@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { geoAlbers, geoPath } from 'd3-geo';
+import { geoAlbersUsa, geoPath } from 'd3-geo';
 import { feature } from 'topojson-client';
 
 import { MapContext } from '../context';
@@ -45,7 +45,7 @@ const USMap = ({ us, districts, updateActiveState, scale, domain, data }) => {
   const yScale = 400;
 
   const path = geoPath().projection(
-    geoAlbers()
+    geoAlbersUsa()
       .scale(scale)
       .translate([xScale / 2, yScale / 2 - 25]),
   );
