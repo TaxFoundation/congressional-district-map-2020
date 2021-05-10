@@ -81,7 +81,7 @@ const StateMap = ({
 
     districtsFeatures.features.forEach(d => {
       console.log(d);
-      const districtId = `d${+d.properties.CD114FP % 100}`;
+      const districtId = `d${+d.properties.district}`;
       const districtData = data[districtId];
       if (data[districtId]) {
         drawingContext.beginPath();

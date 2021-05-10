@@ -46,8 +46,6 @@ const USMap = ({ us, districts, updateActiveState, scale, domain, data }) => {
   const districtsFeatures = feature(districts, districts.objects.layer)
     .features;
 
-  console.log(districtsFeatures);
-
   useEffect(() => {
     let canvas = canvasRef.current;
     let drawingContext = canvas.getContext('2d');
@@ -60,8 +58,9 @@ const USMap = ({ us, districts, updateActiveState, scale, domain, data }) => {
     drawingContext.fillRect(0, 0, xScale, yScale);
 
     districtsFeatures.forEach(d => {
-      const stateId = Math.floor(+d.id / 100);
-      const districtId = `d${d.id % 100}`;
+      console.log(d, d.id, d.state, d.district);
+      const stateId = +d.properties.state;
+      const districtId = `d${+d.properties.district}`;
       let districtData;
       if (data[stateId]?.data[context?.year][districtId]) {
         districtData = data[stateId].data[context.year][districtId];
