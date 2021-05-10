@@ -70,6 +70,11 @@ const USMap = ({ us, districts, updateActiveState, scale, domain, data }) => {
           ? colorize(showSumOfPolicies(districtData, context), domain)
           : '#888';
         drawingContext.fill();
+        drawingContext.strokeStyle = districtData
+          ? colorize(showSumOfPolicies(districtData, context), domain)
+          : '#888';
+        drawingContext.lineWidth = 1;
+        drawingContext.stroke();
         drawingContext.closePath();
       }
     });
