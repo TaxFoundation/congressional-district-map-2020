@@ -17,6 +17,11 @@ Include these scripts on the taxfoundation.org post page:
 
 [Cartographic Boundary Files - Shapefile](https://www.census.gov/geographies/mapping-files/time-series/geo/cartographic-boundary.html). Use 500k for state-level maps, 20m for national.
 
+To create the national-level district map:
+
+```
+mapshaper -i cb_2019_us_cd116_20m.shp name='' -proj wgs84 -rename-fields district=CD116FP,state=STATEFP -filter-fields district,state -simplify 30% -o districts.json format=topojson
+```
 
 To create the individual state topojson files, the [mapshaper](https://github.com/mbloch/mapshaper) tool was used with the following configuration:
 
