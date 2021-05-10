@@ -8,6 +8,7 @@ import { MapContext } from '../context';
 import { showSumOfPolicies, colorize, formatter } from '../helpers';
 import MapContainer from './MapContainer';
 import HoverContainer from './HoverContainer';
+import { average } from 'chroma-js';
 
 const State = styled.path`
   cursor: pointer;
@@ -87,7 +88,9 @@ const USMap = ({ us, districts, updateActiveState, scale, domain, data }) => {
       <State
         d={path(d)}
         data-tip={
-          stateInfo ? hoverText(stateInfo.name, stateInfo.average) : null
+          stateInfo
+            ? hoverText(stateInfo.name, stateInfo.data[context.year].average)
+            : null
         }
         data-for="usmap"
         data-html={true}
