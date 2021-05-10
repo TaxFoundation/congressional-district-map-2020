@@ -50,8 +50,8 @@ const StateMap = ({
   const [activeDistrict, setActiveDistrict] = useState(
     Object.keys(data).length > 1 ? 1 : 0,
   );
-  const xScale = 400;
-  const yScale = 400;
+  const xScale = 1200;
+  const yScale = 800;
 
   const districtsFeatures = feature(
     stateMapData,
