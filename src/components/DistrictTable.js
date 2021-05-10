@@ -110,20 +110,17 @@ const DistrictTable = ({
         )}
         <Table>
           <tbody>
-            {policies.map(policy => (
-              <tr key={`policy-${policy.shorthand}`}>
-                <td>{policy.abbr}</td>
-                <ValueCell
-                  color={
-                    data[`d${activeDistrict}`][policy.shorthand] >= 0
-                      ? '#ef4438'
-                      : '#00aa22'
-                  }
-                >
-                  {formatter(data[`d${activeDistrict}`][policy.shorthand], '$')}
-                </ValueCell>
-              </tr>
-            ))}
+            {policies.map(policy => {
+              const value = data[`d${activeDistrict}`][policy.shorthand];
+              return (
+                <tr key={`policy-${policy.shorthand}`}>
+                  <td>{policy.abbr}</td>
+                  <ValueCell color={value >= 0 ? '#ef4438' : '#00aa22'}>
+                    {formatter(context[policy.id] ? value : 0, '$')}
+                  </ValueCell>
+                </tr>
+              );
+            })}
             <tr>
               <td>Avgerage Tax {districtTotals >= 0 ? 'Increase' : 'Cut'}</td>
               <ValueCell color={districtTotals >= 0 ? '#ef4438' : '#00aa22'}>
