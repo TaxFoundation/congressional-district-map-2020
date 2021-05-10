@@ -15,12 +15,12 @@ Include these scripts on the taxfoundation.org post page:
 
 ## Data Sources
 
-* [Cartographic Boundary Shapefiles - Congressional Districts](https://www.census.gov/geo/maps-data/data/cbf/cbf_cds.html)
+* [Cartographic Boundary Files - Shapefile](https://www.census.gov/geographies/mapping-files/time-series/geo/carto-boundary-file.html)
 
 To create the individual state topojson files, the [mapshaper](https://github.com/mbloch/mapshaper) tool was used with the following configuration:
 
 ```
-mapshaper -i cb_2015_us_cd114_500k.shp name='' -proj wgs84 -split STATEFP -o format=geojson
+mapshaper -i cb_2018_us_cd116_500k.shp name='' -proj wgs84 -split STATEFP -o format=geojson
 mapshaper -i *.json -o format=topojson force
 ```
 
