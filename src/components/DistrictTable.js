@@ -76,8 +76,10 @@ const DistrictTable = ({
   updateActiveState,
 }) => {
   const districtIds = Object.keys(data)
+    .filter(d => d !== 'average')
     .map(d => d.match(/\d+/)[0])
     .sort((a, b) => a - b);
+  console.log(districtIds);
 
   const { context } = useContext(MapContext);
 
