@@ -76,21 +76,19 @@ const USMap = ({ us, districts, updateActiveState, scale, domain, data }) => {
 
   const states = feature(us, us.objects.states).features.map(d => {
     const stateInfo = data[+d.id];
-    let districtValues,
-      avgNetChange = null;
+    let districtValues = null;
     if (stateInfo) {
       districtValues = Object.values(stateInfo.data[context.year]).map(d =>
         showSumOfPolicies(d, context),
       );
-      avgNetChange =
-        districtValues.reduce((acc, curr) => acc + curr, 0) /
-        districtValues.length;
     }
 
     return (
       <State
         d={path(d)}
-        data-tip={stateInfo ? hoverText(stateInfo.name, avgNetChange) : null}
+        data-tip={
+          stateInfo ? hoverText(stateInfo.name, stateInfo.average) : null
+        }
         data-for="usmap"
         data-html={true}
         key={`state-${d.id}`}
