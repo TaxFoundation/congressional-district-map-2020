@@ -48,7 +48,7 @@ const StateMap = ({
   const { context } = useContext(MapContext);
   const canvasRef = useRef();
   const [activeDistrict, setActiveDistrict] = useState(
-    Object.keys(data).length > 1 ? 1 : 0,
+    Object.keys(data).filter(d => d !== 'average').length > 1 ? 1 : 0,
   );
   const xScale = 1200;
   const yScale = 800;
