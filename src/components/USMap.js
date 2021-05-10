@@ -58,7 +58,6 @@ const USMap = ({ us, districts, updateActiveState, scale, domain, data }) => {
     drawingContext.fillRect(0, 0, xScale, yScale);
 
     districtsFeatures.forEach(d => {
-      console.log(d, d.id, d.state, d.district);
       const stateId = +d.properties.state;
       const districtId = `d${+d.properties.district}`;
       let districtData;
