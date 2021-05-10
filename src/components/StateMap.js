@@ -24,8 +24,8 @@ const Container = styled.div`
 const District = styled.path`
   cursor: pointer;
   fill: transparent;
-  stroke: #fff;
-  stroke-width: ${props => (props.active ? 1.5 : 0.5)};
+  stroke: ${props => (props.active ? '#f7d' : 'transparent')};
+  stroke-width: 2px;
   stroke-linejoin: bevel;
   transition: fill 0.2s ease-in-out;
 `;
@@ -48,7 +48,7 @@ const StateMap = ({
   const { context } = useContext(MapContext);
   const canvasRef = useRef();
   const [activeDistrict, setActiveDistrict] = useState(
-    Object.keys(data).length > 1 ? 1 : 0,
+    Object.keys(data).filter(d => d !== 'average').length > 1 ? 1 : 0,
   );
   const xScale = 1200;
   const yScale = 800;
@@ -80,7 +80,7 @@ const StateMap = ({
     drawingContext.fillRect(0, 0, xScale, yScale);
 
     districtsFeatures.features.forEach(d => {
-      const districtId = `d${+d.properties.CD114FP % 100}`;
+      const districtId = `d${+d.properties.district}`;
       const districtData = data[districtId];
       if (data[districtId]) {
         drawingContext.beginPath();
@@ -89,13 +89,16 @@ const StateMap = ({
           ? colorize(showSumOfPolicies(districtData, context), domain)
           : '#888';
         drawingContext.fill();
+        drawingContext.strokeStyle = districtData ? '#fff' : '#888';
+        drawingContext.lineWidth = 1;
+        drawingContext.stroke();
         drawingContext.closePath();
       }
     });
   }, [path, canvasRef, context]);
 
   const districtShapes = districtsFeatures.features.map(d => {
-    const districtId = +d.properties.CD114FP;
+    const districtId = +d.properties.district;
     const districtData = data[`d${districtId}`];
     if (districtData) {
       return (

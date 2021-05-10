@@ -43,7 +43,7 @@ const USMap = ({ us, districts, updateActiveState, scale, domain, data }) => {
       .scale(scale)
       .translate([xScale / 2, yScale / 2 - 25]),
   );
-  const districtsFeatures = feature(districts, districts.objects.districts)
+  const districtsFeatures = feature(districts, districts.objects.layer)
     .features;
 
   useEffect(() => {
@@ -58,8 +58,8 @@ const USMap = ({ us, districts, updateActiveState, scale, domain, data }) => {
     drawingContext.fillRect(0, 0, xScale, yScale);
 
     districtsFeatures.forEach(d => {
-      const stateId = Math.floor(+d.id / 100);
-      const districtId = `d${d.id % 100}`;
+      const stateId = +d.properties.state;
+      const districtId = `d${+d.properties.district}`;
       let districtData;
       if (data[stateId]?.data[context?.year][districtId]) {
         districtData = data[stateId].data[context.year][districtId];
