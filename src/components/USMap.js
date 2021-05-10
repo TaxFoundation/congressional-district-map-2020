@@ -43,8 +43,10 @@ const USMap = ({ us, districts, updateActiveState, scale, domain, data }) => {
       .scale(scale)
       .translate([xScale / 2, yScale / 2 - 25]),
   );
-  const districtsFeatures = feature(districts, districts.objects.districts)
+  const districtsFeatures = feature(districts, districts.objects.layer)
     .features;
+
+  console.log(districtsFeatures);
 
   useEffect(() => {
     let canvas = canvasRef.current;
