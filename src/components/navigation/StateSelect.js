@@ -29,8 +29,9 @@ const Select = styled.select`
   border: 1px solid #ccc;
   border-radius: 4px;
   cursor: pointer;
-  grid-area: select;
   font-size: 14px;
+  grid-area: select;
+  padding: 0.5rem 1rem;
   text-align: center;
   width: 100%;
   z-index: 1;
