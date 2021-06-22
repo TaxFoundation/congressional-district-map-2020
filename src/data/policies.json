@@ -58,5 +58,29 @@
     "shorthand": "ptc",
     "name": "Permanent Expansion of Premium Tax Credits",
     "abbr": "Permanent Expansion of Premium Tax Credits"
+  },
+  {
+    "id": "CORP_RATE_PER_FILER",
+    "shorthand": "crpf",
+    "name": "Corporate Rate Change?",
+    "abbr": "Corporate Rate Change?"
+  },
+  {
+    "id": "GILTI_CHANGES_PER_FILER",
+    "shorthand": "gcpf",
+    "name": "Changes to GILTI",
+    "abbr": "Changes to GILTI"
+  },
+  {
+    "id": "REPEAL_FIDII_PER_FILER",
+    "shorthand": "fidii",
+    "name": "Repeal FIDII",
+    "abbr": "Repeal FIDII"
+  },
+  {
+    "id": "BOOK_TAX_PER_FILER",
+    "shorthand": "btpf",
+    "name": "Book Tax?",
+    "abbr": "Book Tax?"
   }
 ]
