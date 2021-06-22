@@ -73,9 +73,9 @@
   },
   {
     "id": "REPEAL_FIDII_PER_FILER",
-    "shorthand": "fidii",
-    "name": "Repeal FIDII",
-    "abbr": "Repeal FIDII"
+    "shorthand": "fdii",
+    "name": "Repeal FDII",
+    "abbr": "Repeal FDII"
   },
   {
     "id": "BOOK_TAX_PER_FILER",
