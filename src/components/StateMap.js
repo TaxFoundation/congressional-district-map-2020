@@ -19,6 +19,10 @@ const Container = styled.div`
   display: grid;
   grid-gap: 1rem;
   grid-template: repeat(2, auto) / auto;
+
+  @media screen and (min-width: 600px) {
+    grid-template: auto / 3fr 2fr;
+  }
 `;
 
 const District = styled.path`
