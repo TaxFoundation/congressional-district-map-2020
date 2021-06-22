@@ -62,14 +62,14 @@
   {
     "id": "CORP_RATE_PER_FILER",
     "shorthand": "crpf",
-    "name": "Corporate Rate Change?",
-    "abbr": "Corporate Rate Change?"
+    "name": "Raise the Corporate Tax Rate to 28%",
+    "abbr": "Raise the Corporate Tax Rate to 28%"
   },
   {
     "id": "GILTI_CHANGES_PER_FILER",
     "shorthand": "gcpf",
-    "name": "Changes to GILTI",
-    "abbr": "Changes to GILTI"
+    "name": "Raise GILTI Rate and Tighten GILTI Rules",
+    "abbr": "Raise GILTI Rate and Tighten GILTI Rules"
   },
   {
     "id": "REPEAL_FIDII_PER_FILER",
@@ -80,7 +80,7 @@
   {
     "id": "BOOK_TAX_PER_FILER",
     "shorthand": "btpf",
-    "name": "Book Tax?",
-    "abbr": "Book Tax?"
+    "name": "Impose a 15% Book Minimum Tax",
+    "abbr": "Impose a 15% Book Minimum Tax"
   }
 ]
