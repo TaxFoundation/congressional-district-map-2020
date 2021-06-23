@@ -65,6 +65,7 @@ const BackToMap = styled.p`
 const ValueCell = styled.td`
   color: ${props => (props.color ? props.color : '#333')};
   font-family: 'Roboto Mono', monospace !important;
+  min-width: 100px;
   text-align: right;
 `;
 
