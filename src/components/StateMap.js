@@ -29,9 +29,15 @@ const District = styled.path`
   cursor: pointer;
   fill: transparent;
   stroke: ${props => (props.active ? '#f7d' : 'transparent')};
-  stroke-width: 2px;
+  stroke-width: 4px;
   stroke-linejoin: bevel;
-  transition: fill 0.2s ease-in-out;
+  transition: fill 0.2s ease-in-out, stroke 0.2s ease-in-out, stroke-width 0.2s ease-in-out;
+
+  &:hover {
+    fill: rgba(255, 255, 255, 0.1);
+    stroke: #f7d;
+    stroke-width: 2px;
+  }
 `;
 
 const BG = styled.rect`
@@ -111,7 +117,10 @@ const StateMap = ({
           id={`district-detail-${districtId}`}
           key={`district-detail-${districtId}`}
           active={districtId === activeDistrict}
-          onMouseOver={() =>
+          onClick={() =>
+            districtId > 0 ? setActiveDistrict(districtId) : null
+          }
+          onTouchEnd={() =>
             districtId > 0 ? setActiveDistrict(districtId) : null
           }
         />
