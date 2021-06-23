@@ -122,7 +122,7 @@ const DistrictTable = ({
               );
             })}
             <tr>
-              <td>Avgerage Tax {districtTotals >= 0 ? 'Increase' : 'Cut'}</td>
+              <td>Average Tax {districtTotals >= 0 ? 'Increase' : 'Cut'}</td>
               <ValueCell color={districtTotals >= 0 ? '#ef4438' : '#00aa22'}>
                 {formatter(Math.abs(districtTotals), '$')}
               </ValueCell>
