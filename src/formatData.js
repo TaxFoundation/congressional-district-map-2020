@@ -46,8 +46,11 @@ readDirectory(SOURCE_DIR, (row, year) => {
 readDirectory(AVERAGES_DIR, (row, year) => {
   const state = states.find(s => s.abbr === row.STATE).id;
   if (!outputData[state].data[year]) outputData[state].data[year] = {};
-  outputData[state].data[year].average =
-    Math.round(+row['WEIGHTED_CHANGE_PER_FILER'] * 100) / 100;
+  outputData[state].data[year].average = {};
+  policies.forEach(policy => {
+    outputData[state].data[year].average[policy.shorthand] =
+    Math.round(+row[policy.id] * 100) / 100;
+  })
 });
 
 fs.writeFileSync(
