@@ -65,6 +65,7 @@ const BackToMap = styled.p`
 const ValueCell = styled.td`
   color: ${props => (props.color ? props.color : '#333')};
   font-family: 'Roboto Mono', monospace !important;
+  min-width: 100px;
   text-align: right;
 `;
 
@@ -122,7 +123,7 @@ const DistrictTable = ({
               );
             })}
             <tr>
-              <td>Avgerage Tax {districtTotals >= 0 ? 'Increase' : 'Cut'}</td>
+              <td>Average Tax {districtTotals >= 0 ? 'Increase' : 'Cut'}</td>
               <ValueCell color={districtTotals >= 0 ? '#ef4438' : '#00aa22'}>
                 {formatter(Math.abs(districtTotals), '$')}
               </ValueCell>

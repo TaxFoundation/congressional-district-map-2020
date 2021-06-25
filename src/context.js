@@ -13,6 +13,10 @@ const initialState = {
   CTC: true,
   CDCTC: true,
   HOMEBUYER_CREDIT: true,
+  CORP_RATE_PER_FILER: true,
+  GILTI_CHANGES_PER_FILER: true,
+  REPEAL_FIDII_PER_FILER: true,
+  BOOK_TAX_PER_FILER: true,
 };
 
 policies.forEach(policy => (initialState[policy.id] = true));

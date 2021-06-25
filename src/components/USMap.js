@@ -94,7 +94,7 @@ const USMap = ({ us, districts, updateActiveState, scale, domain, data }) => {
         d={path(d)}
         data-tip={
           stateInfo
-            ? hoverText(stateInfo.name, stateInfo.data[context.year].average)
+            ? hoverText(stateInfo.name, showSumOfPolicies(stateInfo.data[context.year].average, context))
             : null
         }
         data-for="usmap"
