@@ -33,7 +33,7 @@ const Button = styled.button`
 const PoliciesContainer = styled.div`
   display: ${({ expanded }) => (expanded ? 'grid' : 'none')};
   font-size: 14px;
-  grid-template: repeat(3, auto) / 1fr;
+  grid-template: auto / 1fr;
 `;
 
 const PoliciesList = styled.div`
@@ -71,7 +71,7 @@ const PolicySelect = ({ area }) => {
   return (
     <Container area={area}>
       <Button onClick={() => setExpanded(!expanded)}>
-        {`${expanded ? 'Hide' : 'Show'} Individual Policies`}
+        {`${expanded ? 'Hide' : 'Show'} Tax Provisions`}
       </Button>
       <PoliciesContainer expanded={expanded}>
         <HR />
@@ -106,6 +106,7 @@ const PolicySelect = ({ area }) => {
             Select No Policies
           </Button>
         </PoliciesToggles>
+        <p style={{color: '#666', fontStyle: 'italic', margin: 0, paddingTop: '1rem', textAlign: 'center'}}>Note that each tax provision is estimated within the context of the entire set of budget proposals.</p>
       </PoliciesContainer>
     </Container>
   );
