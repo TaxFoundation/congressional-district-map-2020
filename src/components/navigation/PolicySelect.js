@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import { MapContext } from '../../context';
 import policies from '../../data/policies.json';
+import Button from '../Button';
 
 const Container = styled.div`
   display: grid;
@@ -19,21 +20,10 @@ const HR = styled.hr`
   margin: 1rem 0;
 `;
 
-const Button = styled.button`
-  background-color: #0094ff;
-  border: 1px solid #0094ff;
-  border-radius: 4px;
-  color: white;
-  cursor: pointer;
-  font-size: 1rem;
-  font-family: 'Lato', sans-serif;
-  padding: 0.5rem 1rem;
-`;
-
 const PoliciesContainer = styled.div`
   display: ${({ expanded }) => (expanded ? 'grid' : 'none')};
   font-size: 14px;
-  grid-template: repeat(3, auto) / 1fr;
+  grid-template: auto / 1fr;
 `;
 
 const PoliciesList = styled.div`
@@ -71,7 +61,7 @@ const PolicySelect = ({ area }) => {
   return (
     <Container area={area}>
       <Button onClick={() => setExpanded(!expanded)}>
-        {`${expanded ? 'Hide' : 'Show'} Individual Policies`}
+        {`${expanded ? 'Hide' : 'Show'} Tax Provisions`}
       </Button>
       <PoliciesContainer expanded={expanded}>
         <HR />
@@ -97,15 +87,27 @@ const PolicySelect = ({ area }) => {
             id="toggle-policies"
             onClick={() => updateContext({ id: `TOGGLE_ALL_ON` })}
           >
-            Select All Policies
+            Select All Tax Provisions
           </Button>
           <Button
             id="toggle-policies"
             onClick={() => updateContext({ id: `TOGGLE_ALL_OFF` })}
           >
-            Select No Policies
+            Select No Tax Provisions
           </Button>
         </PoliciesToggles>
+        <p
+          style={{
+            color: '#666',
+            fontStyle: 'italic',
+            margin: 0,
+            paddingTop: '1rem',
+            textAlign: 'center',
+          }}
+        >
+          Note that each tax provision is estimated within the context of the
+          entire set of budget proposals.
+        </p>
       </PoliciesContainer>
     </Container>
   );

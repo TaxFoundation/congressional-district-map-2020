@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const Button = styled.a`
+const Button = styled.button`
   background-color: #0094ff;
   border: 1px solid #0094ff;
   border-radius: 4px;
@@ -14,7 +14,6 @@ const Button = styled.a`
   transition: background-color 0.1s ease-in, border 0.1s ease-in,
     color 0.1s ease-in, font-weight 0.1s ease-in;
 
-  &:focus,
   &:hover {
     background-color: #e6f4ff;
     border: 1px solid #0094ff;

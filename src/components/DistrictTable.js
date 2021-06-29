@@ -1,9 +1,10 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
 
 import { MapContext } from '../context';
 import policies from '../data/policies.json';
 import Select from './Select';
+import Button from './Button';
 import { formatter, showSumOfPolicies } from '../helpers';
 
 const StyledDistrictTable = styled.div`
@@ -76,6 +77,7 @@ const DistrictTable = ({
   activeState,
   updateActiveState,
 }) => {
+  const [togglePercentages, setTogglePercentages] = useState(false);
   const districtIds = Object.keys(data)
     .filter(d => d !== 'average')
     .map(d => d.match(/\d+/)[0])
@@ -109,15 +111,22 @@ const DistrictTable = ({
         ) : (
           <h3 style={{ textAlign: 'center' }}>At-Large District</h3>
         )}
+        <Button style={{display: 'block'}} onClick={() => setTogglePercentages(!togglePercentages)}>{togglePercentages ? 'Show in Dollars' : 'Show as Percent of AGI'}</Button>
         <Table>
           <tbody>
+            <tr>
+              <td>Projected Average Adjusted Gross Income</td>
+              <ValueCell>
+                {formatter(data[`d${activeDistrict}`].agi ? data[`d${activeDistrict}`].agi : 0, '$')}
+              </ValueCell>
+            </tr>
             {policies.map(policy => {
-              const value = data[`d${activeDistrict}`][policy.shorthand];
+              const value = togglePercentages ? data[`d${activeDistrict}`][policy.shorthand]/data[`d${activeDistrict}`].agi : data[`d${activeDistrict}`][policy.shorthand];
               return (
                 <tr key={`policy-${policy.shorthand}`}>
                   <td>{policy.abbr}</td>
                   <ValueCell color={value >= 0 ? '#ef4438' : '#00aa22'}>
-                    {formatter(context[policy.id] ? value : 0, '$')}
+                    {formatter(context[policy.id] ? value : 0, togglePercentages ? '%' : '$')}
                   </ValueCell>
                 </tr>
               );
@@ -125,7 +134,7 @@ const DistrictTable = ({
             <tr>
               <td>Average Tax {districtTotals >= 0 ? 'Increase' : 'Cut'}</td>
               <ValueCell color={districtTotals >= 0 ? '#ef4438' : '#00aa22'}>
-                {formatter(Math.abs(districtTotals), '$')}
+                {formatter(togglePercentages ? Math.abs(districtTotals)/data[`d${activeDistrict}`].agi : Math.abs(districtTotals), togglePercentages ? '%' : '$')}
               </ValueCell>
             </tr>
           </tbody>
