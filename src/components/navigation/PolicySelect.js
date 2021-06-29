@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import { MapContext } from '../../context';
 import policies from '../../data/policies.json';
+import Button from '../Button'
 
 const Container = styled.div`
   display: grid;
@@ -17,17 +18,6 @@ const HR = styled.hr`
   color: #ccc;
   height: 1px;
   margin: 1rem 0;
-`;
-
-const Button = styled.button`
-  background-color: #0094ff;
-  border: 1px solid #0094ff;
-  border-radius: 4px;
-  color: white;
-  cursor: pointer;
-  font-size: 1rem;
-  font-family: 'Lato', sans-serif;
-  padding: 0.5rem 1rem;
 `;
 
 const PoliciesContainer = styled.div`
