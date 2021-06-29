@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import { MapContext } from '../../context';
 import policies from '../../data/policies.json';
-import Button from '../Button'
+import Button from '../Button';
 
 const Container = styled.div`
   display: grid;
@@ -87,16 +87,27 @@ const PolicySelect = ({ area }) => {
             id="toggle-policies"
             onClick={() => updateContext({ id: `TOGGLE_ALL_ON` })}
           >
-            Select All Policies
+            Select All Tax Provisions
           </Button>
           <Button
             id="toggle-policies"
             onClick={() => updateContext({ id: `TOGGLE_ALL_OFF` })}
           >
-            Select No Policies
+            Select No Tax Provisions
           </Button>
         </PoliciesToggles>
-        <p style={{color: '#666', fontStyle: 'italic', margin: 0, paddingTop: '1rem', textAlign: 'center'}}>Note that each tax provision is estimated within the context of the entire set of budget proposals.</p>
+        <p
+          style={{
+            color: '#666',
+            fontStyle: 'italic',
+            margin: 0,
+            paddingTop: '1rem',
+            textAlign: 'center',
+          }}
+        >
+          Note that each tax provision is estimated within the context of the
+          entire set of budget proposals.
+        </p>
       </PoliciesContainer>
     </Container>
   );
